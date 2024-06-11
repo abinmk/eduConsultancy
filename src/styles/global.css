@@ -1,0 +1,12 @@
+/* Reset default margin and padding */
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  main {
+    padding: 0; /* Remove padding from main to eliminate white space */
+  }
+  
