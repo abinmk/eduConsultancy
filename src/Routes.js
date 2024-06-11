@@ -8,6 +8,7 @@ import Fees from './pages/Fees';
 import Courses from './pages/Courses';
 import Institutes from './pages/Institutes';
 import Announcements from './pages/Announcements';
+import Login from './pages/Login';
 
 const AppRoutes = () => (
   <Router>
@@ -19,6 +20,7 @@ const AppRoutes = () => (
       <Route path="/courses" element={<Courses />} />
       <Route path="/institutes" element={<Institutes />} />
       <Route path="/announcements" element={<Announcements />} />
+      <Route path="/login" element={<Login />} />
     </Routes>
   </Router>
 );
