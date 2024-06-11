@@ -117,10 +117,10 @@ const Allotments = () => {
               <tbody>
                 {filteredData.map((item, index) => (
                   <tr key={index}>
-                    <td>{item.Rank}</td>
-                    <td>{item['Allotted Quota']}</td>
-                    <td>{item['Allotted Institute']}</td>
-                    <td>{item.Course}</td>
+                    <td data-label="Rank">{item.Rank}</td>
+                    <td data-label="Allotted Quota">{item['Allotted Quota']}</td>
+                    <td data-label="Allotted Institute">{item['Allotted Institute']}</td>
+                    <td data-label="Course">{item.Course}</td>
                   </tr>
                 ))}
               </tbody>

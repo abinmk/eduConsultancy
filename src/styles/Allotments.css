@@ -67,3 +67,41 @@ tbody tr:nth-child(even) {
   color: #004aad;
   margin-top: 20px;
 }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .filter-section input,
+  .filter-section select {
+    width: 100%; /* Full width on mobile */
+  }
+
+  .filter-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  table, th, td {
+    display: block;
+    width: 100%;
+  }
+
+  th {
+    display: none; /* Hide table headers */
+  }
+
+  td {
+    position: relative;
+    padding-left: 50%;
+    text-align: right;
+  }
+
+  td::before {
+    content: attr(data-label); /* Use data-label to show headers on mobile */
+    position: absolute;
+    left: 10px;
+    width: calc(50% - 20px);
+    padding-right: 10px;
+    text-align: left;
+    font-weight: bold;
+  }
+}

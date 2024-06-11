@@ -37,8 +37,8 @@ const Header = () => {
         <Link to="/courses" onClick={closeMenu}>Courses</Link>
         <Link to="/institutes" onClick={closeMenu}>Institutes</Link>
         <Link to="/announcements" onClick={closeMenu}>Announcements</Link>
-        <Link to="/login" className="header-login" onClick={closeMenu}>Login</Link>
       </nav>
+      <Link to="/login" className="header-login" onClick={closeMenu}>Login</Link>
       <div className="menu-icon" onClick={toggleMenu}>
         {menuOpen ? <FaTimes /> : <FaBars />}
       </div>
