@@ -70,3 +70,41 @@
     color: #00337c;
   }
   
+  .menu-icon {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff;
+  }
+  
+  .header-nav.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background-color: #004aad;
+    padding: 20px 0;
+  }
+  
+  .header-nav a {
+    padding: 10px 20px;
+    border-bottom: 1px solid #fff;
+  }
+  
+  .header-nav a:last-child {
+    border-bottom: none;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .header-nav {
+      display: none;
+    }
+  
+    .menu-icon {
+      display: block;
+    }
+  }
+  
