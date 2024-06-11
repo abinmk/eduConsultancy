@@ -8,7 +8,6 @@ import Fees from './pages/Fees';
 import Courses from './pages/Courses';
 import Institutes from './pages/Institutes';
 import Announcements from './pages/Announcements';
-import Header from './components/Header';
 
 const AppRoutes = () => (
   <Router>
