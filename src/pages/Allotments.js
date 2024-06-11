@@ -57,7 +57,7 @@ const Allotments = () => {
   return (
     <Layout>
       <section className="allotments-section">
-        <h1>Allotments Page</h1>
+        <h1>Allotments Filter</h1>
         <p>Details about the allotments will be displayed here.</p>
 
         {loading ? (
