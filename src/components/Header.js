@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import '../styles/Header.css';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
+
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
