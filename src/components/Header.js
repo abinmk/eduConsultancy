@@ -28,7 +28,9 @@ const Header = () => {
 
   return (
     <header className={`header-container ${scrolled ? 'scrolled' : ''}`}>
-      <Link to="/" className="header-logo" onClick={closeMenu}>EduConsult</Link>
+      <Link to="/" className="header-logo" onClick={closeMenu}>
+        <img src="/images/logo.png" alt="Rank & Seats" className="logo-image" />
+      </Link>
       <nav className={`header-nav ${menuOpen ? 'open' : ''}`}>
         <Link to="/" onClick={closeMenu}>Home</Link>
         <Link to="/allotments" onClick={closeMenu}>Allotments</Link>

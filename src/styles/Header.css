@@ -1,24 +1,24 @@
 .header-container {
   position: sticky;
   top: 0;
-  background-color: #fff; /* White background for minimalistic look */
+  background-color: #fff; /* White background */
   color: #004aad; /* Primary color for text */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px; /* Reduced padding for minimalistic style */
+  padding: 8px 20px; /* Adjusted padding */
   z-index: 1000;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  transition: background-color 0.3s ease, padding 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: padding 0.3s ease, background-color 0.3s ease;
 }
 
 .header-container.scrolled {
-  background-color: #f0f0f0; /* Slightly darker on scroll */
+  /* Remove background color change on scroll */
   padding: 5px 20px; /* Less padding on scroll */
 }
 
 .header-logo {
-  font-size: 1.5rem; /* Slightly smaller font size */
+  font-size: 1.5rem;
   font-weight: bold;
   color: #004aad;
   margin-left: 10px;
@@ -27,23 +27,27 @@
 }
 
 .header-logo:hover {
-  transform: scale(1.05); /* Subtle hover effect */
+  transform: scale(1.05);
+}
+
+.header-logo .logo-image {
+  height: 40px; /* Adjust the height as needed */
 }
 
 .header-nav {
   display: flex;
-  gap: 15px; /* Smaller gap for minimalistic style */
+  gap: 15px;
   align-items: center;
-  justify-content: center; /* Center the nav items */
-  flex: 1; /* Allow the nav to take up remaining space */
+  justify-content: center;
+  flex: 1;
 }
 
 .header-nav a {
-  color: #004aad;
+  color: #004aad; /* Primary color for text */
   text-decoration: none;
-  font-size: 1rem; /* Slightly smaller font size */
-  padding: 8px 12px; /* Reduced padding */
-  border-radius: 3px; /* Slightly rounded corners */
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 3px;
   transition: color 0.3s ease, background-color 0.3s ease;
 }
 
@@ -53,26 +57,26 @@
 }
 
 .header-login {
-  background-color: #004aad;
-  color: #fff;
-  padding: 8px 12px; /* Reduced padding */
+  background-color: #ffcc00;
+  color: #004aad;
+  padding: 8px 12px;
   border-radius: 3px;
   text-decoration: none;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  margin-left: auto; /* Pushes the login link to the right end */
+  margin-left: auto;
 }
 
 .header-login:hover {
-  background-color: #00337c;
-  transform: scale(1.05); /* Subtle hover effect */
+  background-color: #ffd633;
+  transform: scale(1.05);
 }
 
 .menu-icon {
   display: none;
-  font-size: 1.5rem; /* Slightly smaller icon */
+  font-size: 1.5rem;
   cursor: pointer;
   color: #004aad;
-  margin-left: 20px; /* Space from the right edge */
+  margin-left: 20px;
 }
 
 .header-nav.open {
@@ -83,7 +87,7 @@
   left: 0;
   right: 0;
   background-color: #fff;
-  padding-top: 60px; /* Space for fixed header */
+  padding-top: 60px;
   padding-bottom: 20px;
   height: 100vh;
   overflow-y: auto;
@@ -106,6 +110,6 @@
   }
 
   .header-login {
-    display: none; /* Hide login link in mobile view */
+    display: none;
   }
 }
