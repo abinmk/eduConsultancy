@@ -12,27 +12,24 @@ const Allotments = () => {
     institute: '',
     course: ''
   });
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('/allotments.json')
       .then(response => response.json())
       .then(data => {
-        console.log('Fetched data:', data); // Debug log
         setData(data);
         setFilteredData(data);
-        setLoading(false); // Set loading to false after data is fetched
+        setLoading(false);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
-        setLoading(false); // Set loading to false in case of error
+        setLoading(false);
       });
   }, []);
 
   const uniqueValues = (key) => {
-    const values = [...new Set(data.map(item => item[key]))];
-    console.log(`Unique values for ${key}:`, values); // Debug log
-    return values;
+    return [...new Set(data.map(item => item[key]))];
   };
 
   const handleChange = (e) => {
@@ -57,9 +54,7 @@ const Allotments = () => {
   return (
     <Layout>
       <section className="allotments-section">
-        <h1>Allotments Filter Neet PG</h1>
-        <p>Details about the allotments will be displayed here.</p>
-
+        <h1>Allotments</h1>
         {loading ? (
           <div className="loader">Loading...</div>
         ) : (
@@ -117,10 +112,10 @@ const Allotments = () => {
               <tbody>
                 {filteredData.map((item, index) => (
                   <tr key={index}>
-                    <td data-label="Rank">{item.Rank}</td>
-                    <td data-label="Allotted Quota">{item['Allotted Quota']}</td>
-                    <td data-label="Allotted Institute">{item['Allotted Institute']}</td>
-                    <td data-label="Course">{item.Course}</td>
+                    <td>{item.Rank}</td>
+                    <td>{item['Allotted Quota']}</td>
+                    <td>{item['Allotted Institute']}</td>
+                    <td>{item.Course}</td>
                   </tr>
                 ))}
               </tbody>

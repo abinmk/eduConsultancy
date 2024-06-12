@@ -1,19 +1,13 @@
 .allotments-section {
   padding: 40px 20px;
   text-align: center;
-  background-color: #f9f9f9; /* Light background to separate content */
+  background-color: #f9f9f9;
 }
 
 .allotments-section h1 {
   font-size: 2.5rem;
   margin-bottom: 20px;
-  color: #004aad; /* Primary color for headings */
-}
-
-.allotments-section p {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-  color: #333; /* Darker color for text */
+  color: #004aad;
 }
 
 .filter-section {
@@ -29,12 +23,12 @@
   justify-content: center;
   gap: 10px;
   width: 100%;
-  max-width: 600px; /* Adjust as needed */
+  max-width: 600px;
 }
 
 .filter-section input,
 .filter-section select {
-  width: 50%; /* Two filters per row */
+  width: 50%;
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #ccc;
@@ -66,42 +60,4 @@ tbody tr:nth-child(even) {
   font-size: 1.5rem;
   color: #004aad;
   margin-top: 20px;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .filter-section input,
-  .filter-section select {
-    width: 100%; /* Full width on mobile */
-  }
-
-  .filter-row {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  table, th, td {
-    display: block;
-    width: 100%;
-  }
-
-  th {
-    display: none; /* Hide table headers */
-  }
-
-  td {
-    position: relative;
-    padding-left: 50%;
-    text-align: right;
-  }
-
-  td::before {
-    content: attr(data-label); /* Use data-label to show headers on mobile */
-    position: absolute;
-    left: 10px;
-    width: calc(50% - 20px);
-    padding-right: 10px;
-    text-align: left;
-    font-weight: bold;
-  }
 }
