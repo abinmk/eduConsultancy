@@ -61,17 +61,61 @@
   transform: scale(1.1);
 }
 
+.connectivity-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 20px;
+  margin: 40px auto; /* Add margin for better spacing */
+  text-align: left;
+  background-color: #ffffff;
+  width: 100%; /* Use full width for container */
+  max-width: 1200px; /* Limit the max width of the section */
+  box-sizing: border-box;
+}
+
+.connectivity-content {
+  max-width: 50%; /* Use half the width for content */
+}
+
+.connectivity-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.connectivity-content p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.connectivity-image {
+  max-width: 300px; /* Set the image width to 300px */
+}
+
+.connectivity-image img {
+  width: 100%; /* Increase image to full width */
+  height: auto;
+}
+
 .icon-section {
   display: flex;
   justify-content: center;
   padding: 40px 20px;
   flex-wrap: wrap; /* Allow icons to wrap on smaller screens */
+  gap: 40px; /* Increase space between icons */
+  background-color: #f0f4ff; /* Light background color for the section */
 }
 
 .icon-section .icon {
   margin: 20px;
   text-align: center;
   transition: transform 0.3s ease;
+  padding: 20px;
+  background: #fff; /* White background for the icons */
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for better visibility */
+  text-decoration: none; /* Remove underline from links */
+  color: inherit; /* Inherit text color */
 }
 
 .icon-section .icon:hover {
@@ -89,8 +133,9 @@
 }
 
 .features {
-  margin-bottom: 40px;
+  margin: 40px auto; /* Center align the section */
   text-align: center; /* Center align the heading */
+  max-width: 1200px; /* Align with the connectivity section */
 }
 
 .features h2 {
@@ -128,37 +173,37 @@
   color: #333;
 }
 
-.educational-content {
+.subscribe-section {
+  background-color: #004aad; /* Blue background */
+  color: #fff; /* White text */
   padding: 40px 20px;
   text-align: center;
-  background: #f9f9f9; /* Light background to separate content */
 }
 
-.educational-content h2 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-.educational-content p {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-  max-width: 800px; /* Limit width for better readability */
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.contact {
-  margin-top: 40px;
-}
-
-.contact h2 {
+.subscribe-section h2 {
   font-size: 2rem;
   margin-bottom: 20px;
-  color: #004aad;
 }
 
-.contact p {
+.subscribe-section p {
   font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.subscribe-button {
+  background-color: #fff;
+  color: #004aad;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.subscribe-button:hover {
+  background-color: #f1f1f1;
+  color: #00337c;
 }
 
 /* Responsive Adjustments */
@@ -166,10 +211,34 @@
   .feature-card {
     width: calc(50% - 40px); /* Adjust width to fit 2 in a row on medium screens */
   }
+
+  .connectivity-section {
+    flex-direction: column;
+    text-align: center;
+    margin: 20px 0; /* Adjust margin for smaller screens */
+  }
+
+  .connectivity-content, .connectivity-image {
+    flex: unset;
+    padding: 0;
+    max-width: 100%; /* Use full width for both content and image on smaller screens */
+  }
+
+  .connectivity-content {
+    margin-bottom: 20px;
+  }
+
+  .connectivity-image img {
+    max-width: 60%;
+  }
 }
 
 @media (max-width: 768px) {
   .feature-card {
     width: calc(100% - 40px); /* Adjust width to fit 1 in a row on small screens */
+  }
+
+  .connectivity-image img {
+    max-width: 80%;
   }
 }

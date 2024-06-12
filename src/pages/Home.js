@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/Home.css';
 import Layout from '../components/Layout';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
@@ -11,23 +12,37 @@ const Home = () => {
         <button>Learn More</button>
       </section>
 
+      <section className="connectivity-section">
+        <div className="connectivity-content">
+          <h2>Connectivity Has Never Been This Easier</h2>
+          <p>
+            Rank and Seats will be your one stop platform for all the NEET PG All India Counselling related information.
+            We help you take an informed decision to opt for the best seat by providing data and information in a
+            well-structured manner.
+          </p>
+        </div>
+        <div className="connectivity-image">
+          <img src="/images/doctor-illustration.png" alt="Doctors" />
+        </div>
+      </section>
+
       <section className="icon-section">
-        <div className="icon">
+        <Link to="/allotments" className="icon">
           <img src="/images/allotments-icon.png" alt="Allotments" />
           <p>Allotments</p>
-        </div>
-        <div className="icon">
+        </Link>
+        <Link to="/last-ranks" className="icon">
           <img src="/images/last-ranks-icon.png" alt="Last Ranks" />
           <p>Last Ranks</p>
-        </div>
-        <div className="icon">
-          <img src="/images/privacy-policy-icon.png" alt="Privacy Policy" />
-          <p>Privacy Policy</p>
-        </div>
-        <div className="icon">
+        </Link>
+        <Link to="/courses" className="icon">
+          <img src="/images/courses-icon.png" alt="Courses" />
+          <p>Courses</p>
+        </Link>
+        <Link to="/announcements" className="icon">
           <img src="/images/announcements-icon.png" alt="Announcements" />
           <p>Announcements</p>
-        </div>
+        </Link>
       </section>
 
       <section className="features">
@@ -60,19 +75,14 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="educational-content">
-        <h2>Our Services</h2>
-        <p>We offer a wide range of educational services to help students achieve their academic goals, including personalized counseling, college application assistance, and more.</p>
-        <h2>Testimonials</h2>
-        <p>"Thanks to the guidance and support from this consultancy, I was able to get into my dream college!" - Student A</p>
-        <p>"The consultants are very knowledgeable and helped me every step of the way." - Student B</p>
-      </section>
-
-      <section className="contact">
-        <h2>Contact Us</h2>
-        <p>Email: contact@educonsultancy.com</p>
-        <p>Phone: +1 234 567 890</p>
-        <p>Address: 123 Main St, Anytown, USA</p>
+      <section className="subscribe-section">
+        <div className="subscribe-content">
+          <h2>Subscribe</h2>
+          <p>
+            Subscribe to unlock all the information so that you can easily analyze and take an informed decision.
+          </p>
+          <button className="subscribe-button">Subscribe</button>
+        </div>
       </section>
     </Layout>
   );
