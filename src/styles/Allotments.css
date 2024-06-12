@@ -61,3 +61,28 @@ tbody tr:nth-child(even) {
   color: #004aad;
   margin-top: 20px;
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+}
+
+.pagination li a {
+  padding: 8px 12px;
+  border: 1px solid #004aad;
+  border-radius: 4px;
+  color: #004aad;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.pagination li.active a {
+  background-color: #004aad;
+  color: #fff;
+}

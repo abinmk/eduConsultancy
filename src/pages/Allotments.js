@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Allotments.css';
 import Layout from '../components/Layout';
+import ReactPaginate from 'react-paginate';
 
 const Allotments = () => {
   const [data, setData] = useState([]);
@@ -13,6 +14,8 @@ const Allotments = () => {
     course: ''
   });
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     fetch('/allotments.json')
@@ -40,16 +43,24 @@ const Allotments = () => {
   };
 
   useEffect(() => {
-    setFilteredData(
-      data.filter(item =>
-        (filters.rankMin === '' || item.Rank >= parseInt(filters.rankMin)) &&
-        (filters.rankMax === '' || item.Rank <= parseInt(filters.rankMax)) &&
-        (filters.quota === '' || item['Allotted Quota'] === filters.quota) &&
-        (filters.institute === '' || item['Allotted Institute'] === filters.institute) &&
-        (filters.course === '' || item.Course === filters.course)
-      )
+    const filtered = data.filter(item =>
+      (filters.rankMin === '' || item.Rank >= parseInt(filters.rankMin)) &&
+      (filters.rankMax === '' || item.Rank <= parseInt(filters.rankMax)) &&
+      (filters.quota === '' || item['Allotted Quota'] === filters.quota) &&
+      (filters.institute === '' || item['Allotted Institute'] === filters.institute) &&
+      (filters.course === '' || item.Course === filters.course)
     );
+    setFilteredData(filtered);
+    setCurrentPage(0); // Reset to first page on filter change
   }, [filters, data]);
+
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected);
+  };
+
+  const offset = currentPage * itemsPerPage;
+  const currentPageData = filteredData.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(filteredData.length / itemsPerPage);
 
   return (
     <Layout>
@@ -110,7 +121,7 @@ const Allotments = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredData.map((item, index) => (
+                {currentPageData.map((item, index) => (
                   <tr key={index}>
                     <td>{item.Rank}</td>
                     <td>{item['Allotted Quota']}</td>
@@ -120,6 +131,19 @@ const Allotments = () => {
                 ))}
               </tbody>
             </table>
+            <ReactPaginate
+              previousLabel={"previous"}
+              nextLabel={"next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+            />
           </>
         )}
       </section>
