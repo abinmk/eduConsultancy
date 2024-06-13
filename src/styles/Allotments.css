@@ -26,6 +26,10 @@
   max-width: 600px;
 }
 
+#round{
+  width: 100%;
+}
+
 .filter-section input,
 .filter-section select {
   width: 50%;

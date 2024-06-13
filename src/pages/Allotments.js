@@ -5,6 +5,7 @@ import ReactPaginate from 'react-paginate';
 
 const Allotments = () => {
   const [data, setData] = useState([]);
+  const [selectedRound, setSelectedRound] = useState('1'); // Default to Round 1
   const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilters] = useState({
     rankMin: '',
@@ -18,21 +19,46 @@ const Allotments = () => {
   const itemsPerPage = 10;
 
   useEffect(() => {
-    fetch('/allotments.json')
-      .then(response => response.json())
-      .then(data => {
-        setData(data);
-        setFilteredData(data);
-        setLoading(false);
-      })
-      .catch(error => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const filePath = `/allotments${selectedRound}.json`;
+        const response = await fetch(filePath);
+        const result = await response.json();
+        setData(result);
+        setFilteredData(result);
+        setCurrentPage(0); // Reset to the first page
+      } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
         setLoading(false);
-      });
-  }, []);
+      }
+    };
 
-  const uniqueValues = (key) => {
-    return [...new Set(data.map(item => item[key]))];
+    fetchData();
+  }, [selectedRound]);
+
+  useEffect(() => {
+    if (!loading) {
+      const filtered = data.filter(item =>
+        (filters.rankMin === '' || item.Rank >= parseInt(filters.rankMin)) &&
+        (filters.rankMax === '' || item.Rank <= parseInt(filters.rankMax)) &&
+        (filters.quota === '' || item['Allotted Quota'] === filters.quota) &&
+        (filters.institute === '' || item['Allotted Institute'] === filters.institute) &&
+        (filters.course === '' || item.Course === filters.course)
+      );
+      setFilteredData(filtered);
+      setCurrentPage(0);
+    }
+  }, [filters, data, loading]);
+
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected);
+  };
+
+  const handleRoundChange = (e) => {
+    setSelectedRound(e.target.value);
+    setFilters({ rankMin: '', rankMax: '', quota: '', institute: '', course: '' }); // Reset filters on round change
   };
 
   const handleChange = (e) => {
@@ -42,20 +68,8 @@ const Allotments = () => {
     });
   };
 
-  useEffect(() => {
-    const filtered = data.filter(item =>
-      (filters.rankMin === '' || item.Rank >= parseInt(filters.rankMin)) &&
-      (filters.rankMax === '' || item.Rank <= parseInt(filters.rankMax)) &&
-      (filters.quota === '' || item['Allotted Quota'] === filters.quota) &&
-      (filters.institute === '' || item['Allotted Institute'] === filters.institute) &&
-      (filters.course === '' || item.Course === filters.course)
-    );
-    setFilteredData(filtered);
-    setCurrentPage(0); // Reset to first page on filter change
-  }, [filters, data]);
-
-  const handlePageClick = (event) => {
-    setCurrentPage(event.selected);
+  const uniqueValues = (key) => {
+    return [...new Set(data.map(item => item[key]))];
   };
 
   const offset = currentPage * itemsPerPage;
@@ -71,6 +85,14 @@ const Allotments = () => {
         ) : (
           <>
             <div className="filter-section">
+              <div className="filter-row">
+                <select id="round" value={selectedRound} onChange={handleRoundChange}>
+                  <option value="1">NEET-PG Counselling Seats Allotment - 2023 Round 1</option>
+                  {/* <option value="2">NEET-PG Counselling Seats Allotment - 2023 Round 2</option>
+                  <option value="3">NEET-PG Counselling Seats Allotment - 2023 Round 3</option> */}
+                </select>
+              </div>
+
               <div className="filter-row">
                 <input
                   type="number"

@@ -1,75 +1,75 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Register.module.css';
 
 const Register = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [otpSent, setOtpSent] = useState(false);
+  const [mobileNumber, setMobileNumber] = useState('');
   const [otp, setOtp] = useState('');
+  const [isOtpSent, setIsOtpSent] = useState(false);
+  const navigate = useNavigate();
 
   const handleSendOtp = () => {
-    // Logic to send OTP
-    setOtpSent(true);
+    // Implement OTP sending logic here
+    setIsOtpSent(true);
   };
 
   const handleVerifyOtp = () => {
-    // Logic to verify OTP and complete registration
+    // Implement OTP verification logic here
   };
 
   return (
-    <div className={styles.authContainer}>
-      <h2>Register</h2>
-      {!otpSent ? (
-        <>
-          <div className={styles.formGroup}>
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              id="firstName"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              placeholder="Enter your first name"
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              id="lastName"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder="Enter your last name"
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="mobile">Mobile Number</label>
-            <input
-              type="text"
-              id="mobile"
-              value={mobile}
-              onChange={(e) => setMobile(e.target.value)}
-              placeholder="Enter your mobile number"
-            />
-            <button onClick={handleSendOtp}>Send OTP</button>
-          </div>
-        </>
-      ) : (
-        <div className={styles.formGroup}>
-          <label htmlFor="otp">OTP</label>
+    <div className={styles.registerContainer}>
+      <div className={styles.logoContainer} onClick={() => navigate('/')}>
+        <img 
+          src="/images/logo.png" 
+          alt="Rank & Seats Logo" 
+          className={styles.logo}
+        />
+      </div>
+      <h1>Register</h1>
+      <form className={styles.registerForm}>
+        <label>
+          First Name:
           <input
             type="text"
-            id="otp"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            placeholder="Enter the OTP"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
           />
-          <button onClick={handleVerifyOtp}>Verify OTP</button>
-        </div>
-      )}
-      <Link to="/login">Already have an account? Login</Link>
-      <Link to="/">Back to Home</Link>
+        </label>
+        <label>
+          Last Name:
+          <input
+            type="text"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+        </label>
+        <label>
+          Mobile Number:
+          <input
+            type="text"
+            value={mobileNumber}
+            onChange={(e) => setMobileNumber(e.target.value)}
+          />
+        </label>
+        {isOtpSent && (
+          <label>
+            OTP:
+            <input
+              type="text"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+            />
+          </label>
+        )}
+        {!isOtpSent ? (
+          <button type="button" onClick={handleSendOtp}>Send OTP</button>
+        ) : (
+          <button type="button" onClick={handleVerifyOtp}>Verify OTP</button>
+        )}
+      </form>
     </div>
   );
 };
