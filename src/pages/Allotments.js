@@ -16,7 +16,7 @@ const Allotments = () => {
   });
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 20;
+  const itemsPerPage = 8;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,8 +88,8 @@ const Allotments = () => {
               <div className="filter-row">
                 <select id="round" value={selectedRound} onChange={handleRoundChange}>
                   <option value="1">NEET-PG Counselling Seats Allotment - 2023 Round 1</option>
-                  <option value="2">NEET-PG Counselling Seats Allotment - 2023 Round 2</option>
-                  <option value="3">NEET-PG Counselling Seats Allotment - 2023 Round 3</option>
+                  {/* <option value="2">NEET-PG Counselling Seats Allotment - 2023 Round 2</option>
+                  <option value="3">NEET-PG Counselling Seats Allotment - 2023 Round 3</option> */}
                 </select>
               </div>
 
