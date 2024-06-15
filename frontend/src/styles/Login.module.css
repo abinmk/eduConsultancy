@@ -1,0 +1,109 @@
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.loginBox {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.logo {
+  width: 150px;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileInputContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.countryCode {
+  background-color: #eee;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+}
+
+.mobileInput {
+  padding: 10px;
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 0 5px 5px 0;
+}
+
+.otpInput {
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #004aad;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #00337c;
+  transform: scale(1.05);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.error {
+  color: red;
+  margin-top: 5px;
+  font-size: 0.875rem;
+}
+
+.message {
+  color: green;
+  margin-top: 5px;
+  font-size: 0.875rem;
+}
+
+.registerText {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.registerLink {
+  color: #004aad;
+  text-align: center;
+  display: block;
+  margin-top: 5px;
+}
