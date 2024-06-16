@@ -1,7 +1,6 @@
-// src/pages/Login.js
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance'; // Correctly configured Axios instance
 import { UserContext } from '../contexts/UserContext';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -18,7 +17,7 @@ const Login = () => {
   const handleSendOtp = async () => {
     if (mobileNumber.length === 10) {
       try {
-        const response = await axios.post('http://localhost:5001/api/auth/send-otp', {
+        const response = await axiosInstance.post('/auth/send-otp', {
           mobileNumber: '+91' + mobileNumber
         });
         setIsOtpSent(true);
@@ -37,7 +36,7 @@ const Login = () => {
 
   const handleVerifyOtp = async () => {
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/verify-otp', {
+      const response = await axiosInstance.post('/auth/verify-otp', {
         mobileNumber: '+91' + mobileNumber,
         code: otp
       });

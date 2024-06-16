@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
+  baseURL: 'http://ec2-3-27-172-114.ap-southeast-2.compute.amazonaws.com/api',
 });
 
 // Add a request interceptor to attach the token to every request

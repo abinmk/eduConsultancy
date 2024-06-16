@@ -10,6 +10,12 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+const cors = require('cors');
+app.use(cors({
+  origin: 'http://rankandseats.s3-website-ap-southeast-2.amazonaws.com'  // Your S3 hosted frontend URL
+}));
+
+
 // MongoDB connection
 const db = process.env.MONGO_URI;
 if (!db) {
