@@ -1,25 +1,22 @@
-// In middleware/authenticateToken.js
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+function authenticateToken(req, res, next) {
+  const authHeader = req.header('Authorization');
+  if (!authHeader) {
+    console.log('No Authorization header provided');
+    return res.status(401).json({ message: 'Access Denied' });
+  }
 
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  const token = authHeader.replace('Bearer ', '');
+  if (!token) {
+    console.log('No token provided');
+    return res.status(401).json({ message: 'Access Denied' });
+  }
 
-  if (token == null) return res.sendStatus(401);
-
-  jwt.verify(token, process.env.JWT_SECRET, async (err, user) => {
-    if (err) return res.sendStatus(403);
-
-    try {
-      const foundUser = await User.findOne({ mobileNumber: user.mobileNumber });
-      if (!foundUser) return res.sendStatus(404);
-      req.user = foundUser;
-      next();
-    } catch (error) {
-      res.status(500).json({ message: 'Failed to authenticate token', error: error.message });
-    }
-  });
-};
-
-module.exports = authenticateToken;
+  try {
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = verified;
+    next();
+  } catch (err) {
+    console.log('Invalid token:', err);
+    res.status(400).json({ message: 'Invalid Token' });
+  }
+}

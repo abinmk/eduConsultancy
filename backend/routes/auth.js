@@ -1,5 +1,3 @@
-// backend/routes/auth.js
-
 const express = require('express');
 const router = express.Router();
 const twilio = require('twilio');
@@ -131,8 +129,17 @@ router.get('/profile', authenticateToken, async (req, res) => {
 });
 
 function authenticateToken(req, res, next) {
-  const token = req.header('Authorization').replace('Bearer ', '');
-  if (!token) return res.status(401).json({ message: 'Access Denied' });
+  const authHeader = req.header('Authorization');
+
+  if (!authHeader) {
+    return res.status(401).json({ message: 'Access Denied' });
+  }
+
+  const token = authHeader.replace('Bearer ', '');
+
+  if (!token) {
+    return res.status(401).json({ message: 'Access Denied' });
+  }
 
   try {
     const verified = jwt.verify(token, jwtSecret);

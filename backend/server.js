@@ -1,41 +1,27 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config(); // Ensure dotenv is loaded at the top
+require('dotenv').config();
 const mongoose = require('mongoose');
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5002;
 
-// MongoDB connection
-const db = process.env.MONGO_URI;
-if (!db) {
-  console.error('MONGO_URI environment variable is not defined');
-  process.exit(1);
-}
+// Middleware
+app.use(cors({
+  origin: 'http://localhost:3000',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true
+}));
+app.use(express.json());
 
-mongoose.connect(db, {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// Middleware
-app.use(cors({
-  origin: 'http://rankandseats.s3-website-ap-southeast-2.amazonaws.com',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true
-}));
-app.use(express.json());
-
-// Routes
 app.use('/api/auth', require('./routes/auth'));
-
-// Example of a protected route using roleCheck middleware
-const roleCheck = require('./middlewares/roleCheck');
-app.use('/admin', roleCheck(['admin']), (req, res) => {
-  res.send('Welcome, Admin!');
-});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

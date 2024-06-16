@@ -1,6 +1,7 @@
+// src/pages/Login.js
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../utils/axiosInstance'; // Correctly configured Axios instance
+import axiosInstance from '../utils/axiosInstance';
 import { UserContext } from '../contexts/UserContext';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';

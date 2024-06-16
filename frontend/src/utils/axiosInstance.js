@@ -1,7 +1,8 @@
+// src/axiosInstance.js
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://ec2-3-27-172-114.ap-southeast-2.compute.amazonaws.com/api',
+  baseURL: process.env.REACT_APP_API_URL,
 });
 
 // Add a request interceptor to attach the token to every request
