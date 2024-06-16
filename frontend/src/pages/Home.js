@@ -1,40 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '../styles/Home.css';
 import Layout from '../components/Layout';
+import { Button } from 'primereact/button';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { UserContext } from '../contexts/UserContext';
+import { useContext } from 'react';
 
 const Home = () => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (token) {
-          const response = await axios.get('http://localhost:5001/api/auth/profile', {
-            headers: { Authorization: `Bearer ${token}` }
-          });
-          setUser(response.data);
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-    fetchUser();
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setUser(null);
-  };
+  const { user } = useContext(UserContext);
 
   return (
     <Layout>
       <section className="hero-section">
         <h1>Welcome to Our Educational Consultancy</h1>
         <p>Providing comprehensive services to help you achieve your educational goals.</p>
-        <button>Learn More</button>
+        <Button label="Learn More" />
       </section>
 
       <section className="connectivity-section">
@@ -75,11 +55,11 @@ const Home = () => {
         <div className="feature-cards">
           <div className="feature-card">
             <h3>01</h3>
-            <p>Simplified Counselling Data of Previous Years with numerous filter options for better analysis</p>
+            <p>Simplified Counselling Data of Previous Years with numerous filter options for better analysis.</p>
           </div>
           <div className="feature-card">
             <h3>02</h3>
-            <p>Last Ranks of each course in each round of counselling in structured manner</p>
+            <p>Last Ranks of each course in each round of counselling in structured manner.</p>
           </div>
           <div className="feature-card">
             <h3>03</h3>
@@ -91,7 +71,7 @@ const Home = () => {
           </div>
           <div className="feature-card">
             <h3>05</h3>
-            <p>Latest College and course wise Fees, Stipend, Bond, etc. Details</p>
+            <p>Latest College and course wise Fees, Stipend, Bond, etc. Details.</p>
           </div>
           <div className="feature-card">
             <h3>06</h3>
@@ -103,25 +83,14 @@ const Home = () => {
       <section className="subscribe-section">
         <div className="subscribe-content">
           <h2>Subscribe</h2>
-          <p>
-            Subscribe to unlock all the information so that you can easily analyze and take an informed decision.
-          </p>
-          <button className="subscribe-button">Subscribe</button>
+          <p>Subscribe to unlock all the information so that you can easily analyze and take an informed decision.</p>
+          <Button label="Subscribe" className="subscribe-button" />
         </div>
       </section>
 
-      {user ? (
-        <div className="welcome-section">
-          <p>Welcome, {user.name}</p>
-          <Link to="/user-profile" className="profile-link">
-            <img src="/images/user-icon.png" alt="User Icon" className="user-icon" />
-            Go to Profile
-          </Link>
-          <button onClick={handleLogout} className="logout-button">Logout</button>
-        </div>
-      ) : (
-        <Link to="/login" className="login-link">Login</Link>
-      )}
+      <footer className="footer">
+        <p>&copy; 2024 Rank & Seats. All Rights Reserved.</p>
+      </footer>
     </Layout>
   );
 };

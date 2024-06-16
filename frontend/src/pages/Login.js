@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Ensure this points to your axios instance if you have one
-import { useNavigate, Link } from 'react-router-dom';
+// src/pages/Login.js
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { UserContext } from '../contexts/UserContext';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
 import styles from '../styles/Login.module.css';
 
 const Login = () => {
@@ -8,16 +12,8 @@ const Login = () => {
   const [otp, setOtp] = useState('');
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
-  const [countdown, setCountdown] = useState(0);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (countdown > 0) {
-      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [countdown]);
+  const { setUser } = useContext(UserContext);
 
   const handleSendOtp = async () => {
     if (mobileNumber.length === 10) {
@@ -26,16 +22,13 @@ const Login = () => {
           mobileNumber: '+91' + mobileNumber
         });
         setIsOtpSent(true);
-        setMessage('OTP sent successfully. Please check your mobile.');
         setError('');
-        setCountdown(30);
       } catch (error) {
-        if (error.response && error.response.data && error.response.data.message) {
-          setError(error.response.data.message);
+        if (error.response && error.response.data.message === 'User not registered') {
+          navigate('/register', { state: { mobileNumber } });
         } else {
           setError('Failed to send OTP. Please try again.');
         }
-        setMessage('');
       }
     } else {
       setError('Please enter a valid 10-digit mobile number');
@@ -48,81 +41,49 @@ const Login = () => {
         mobileNumber: '+91' + mobileNumber,
         code: otp
       });
-      localStorage.setItem('token', response.data.token); // Store the JWT token
-      setMessage('OTP verified successfully. Redirecting to home...');
-      setError('');
-      setTimeout(() => {
-        navigate('/'); // Redirect to home page after 2 seconds
-      }, 2000);
-    } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
-        setError(error.response.data.message);
+      const { token, userExists, user } = response.data;
+      localStorage.setItem('token', token);
+      if (userExists) {
+        setUser(user);
+        navigate('/dashboard');
       } else {
-        setError('Failed to verify OTP. Please try again.');
+        navigate('/register', { state: { mobileNumber } });
       }
-      setMessage('');
-    }
-  };
-
-  const handleMobileNumberChange = (e) => {
-    const value = e.target.value;
-    if (/^\d*$/.test(value) && value.length <= 10) {
-      setMobileNumber(value);
-      setError('');
-    } else {
-      setError('Please enter only numeric values up to 10 digits');
+    } catch (error) {
+      setError('Failed to verify OTP. Please try again.');
     }
   };
 
   return (
     <div className={styles.loginContainer}>
+      <img src="/images/logo.png" alt="Logo" className={styles.logo} />
       <div className={styles.loginBox}>
-        <div className={styles.logoContainer} onClick={() => navigate('/')}>
-          <img 
-            src="/images/logo.png" 
-            alt="Rank & Seats Logo" 
-            className={styles.logo}
-          />
-        </div>
-        <h1>Login</h1>
-        <form className={styles.loginForm} onSubmit={(e) => e.preventDefault()}>
+        <h1>Sign In</h1>
+        <form onSubmit={(e) => e.preventDefault()}>
           <div className={styles.mobileInputContainer}>
-            <span className={styles.countryCode}>+91</span>
-            <input
-              type="text"
-              placeholder="Enter your mobile number"
+            <span className="p-inputtext-addon">+91</span>
+            <InputText
               value={mobileNumber}
-              onChange={handleMobileNumberChange}
-              className={styles.mobileInput}
+              onChange={(e) => setMobileNumber(e.target.value)}
               maxLength="10"
+              placeholder="Enter your mobile number"
             />
           </div>
-          {error && <p className={styles.error}>{error}</p>}
-          {message && <p className={styles.message}>{message}</p>}
-          {isOtpSent && (
+          {isOtpSent ? (
             <>
-              <label>
-                OTP:
-                <input
-                  type="text"
-                  placeholder="Enter the OTP"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  className={styles.otpInput}
-                />
-              </label>
-              <button type="button" onClick={handleVerifyOtp}>Verify OTP</button>
-              <button type="button" onClick={handleSendOtp} disabled={countdown > 0}>
-                {countdown > 0 ? `Resend OTP in ${countdown}s` : 'Resend OTP'}
-              </button>
+              <InputText
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                maxLength="6"
+                placeholder="Enter OTP"
+              />
+              <Button label="Verify OTP" onClick={handleVerifyOtp} />
             </>
+          ) : (
+            <Button label="Send OTP" onClick={handleSendOtp} />
           )}
-          {!isOtpSent && (
-            <button type="button" onClick={handleSendOtp}>Send OTP</button>
-          )}
+          {error && <p className={styles.errorMessage}>{error}</p>}
         </form>
-        <p className={styles.registerText}>Don't have an account?</p>
-        <Link to="/register" className={styles.registerLink}>Create one</Link>
       </div>
     </div>
   );

@@ -1,203 +1,115 @@
-import React, { useState, useEffect } from 'react';
+// src/pages/Register.js
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { InputText } from 'primereact/inputtext';
+import { Dropdown } from 'primereact/dropdown';
+import { Button } from 'primereact/button';
 import styles from '../styles/Register.module.css';
 
 const Register = () => {
+  const { state } = useLocation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [mobileNumber, setMobileNumber] = useState('');
+  const [mobileNumber] = useState(state.mobileNumber);
   const [otp, setOtp] = useState('');
   const [isOtpSent, setIsOtpSent] = useState(false);
-  const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [validationErrors, setValidationErrors] = useState({});
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCounselling, setSelectedCounselling] = useState(null);
   const navigate = useNavigate();
 
-  const validateName = (name) => /^[a-zA-Z\s]{3,}$/.test(name);
-  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validateMobileNumber = (mobileNumber) => /^\d{10}$/.test(mobileNumber);
+  const states = [
+    { label: 'Andhra Pradesh', value: 'Andhra Pradesh' },
+    { label: 'Arunachal Pradesh', value: 'Arunachal Pradesh' },
+    // Add all other states
+  ];
 
-  useEffect(() => {
-    const timeoutIds = [];
+  const counsellingOptions = [
+    { label: 'NEET PG', value: 'NEET PG' },
+    { label: 'NEET UG', value: 'NEET UG' },
+    { label: 'INI CET', value: 'INI CET' },
+    { label: 'NEET SS', value: 'NEET SS' }
+  ];
 
-    Object.keys(validationErrors).forEach((key) => {
-      if (validationErrors[key]) {
-        const id = setTimeout(() => {
-          setValidationErrors((prev) => ({ ...prev, [key]: '' }));
-        }, 3000);
-        timeoutIds.push(id);
+  const handleSendOtp = async () => {
+    if (mobileNumber.length === 10) {
+      try {
+        await axios.post('http://localhost:5001/api/auth/send-otp-register', {
+          mobileNumber: '+91' + mobileNumber
+        });
+        setIsOtpSent(true);
+        setError('');
+      } catch (error) {
+        setError('Failed to send OTP. Please try again.');
       }
-    });
-
-    return () => {
-      timeoutIds.forEach((id) => clearTimeout(id));
-    };
-  }, [validationErrors]);
-
-  const handleRegister = async () => {
-    const errors = {};
-    if (!validateName(name)) {
-      errors.name = 'Name can only contain alphabets and spaces and must be at least 3 characters';
-    }
-    if (!validateEmail(email)) {
-      errors.email = 'Invalid email format';
-    }
-    if (!validateMobileNumber(mobileNumber)) {
-      errors.mobileNumber = 'Mobile number must be exactly 10 digits';
-    }
-
-    if (Object.keys(errors).length > 0) {
-      setValidationErrors(errors);
-      return;
-    }
-
-    try {
-      const response = await axios.post('http://localhost:5001/api/auth/register', {
-        name,
-        email,
-        mobileNumber: '+91' + mobileNumber
-      });
-      setIsOtpSent(true);
-      setMessage('OTP sent successfully. Please check your mobile.');
-      setError('');
-    } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
-        setError(error.response.data.message);
-      } else {
-        setError('Failed to register user. Please try again.');
-      }
-      setMessage('');
-      console.error(error);
+    } else {
+      setError('Please enter a valid 10-digit mobile number');
     }
   };
 
   const handleVerifyOtp = async () => {
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/verify-otp', {
+      const response = await axios.post('http://localhost:5001/api/auth/verify-otp-register', {
+        name,
+        email,
         mobileNumber: '+91' + mobileNumber,
+        state: selectedState,
+        counselling: selectedCounselling,
         code: otp
       });
-      localStorage.setItem('token', response.data.token); // Store the JWT token
-      setMessage('OTP verified successfully. Redirecting to home...');
-      setError('');
-      navigate('/'); // Redirect to home page
+      const { token } = response.data;
+      localStorage.setItem('token', token);
+      navigate('/dashboard');
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
-        setError(error.response.data.message);
-      } else {
-        setError('Failed to verify OTP. Please try again.');
-      }
-      setMessage('');
-      console.error(error);
+      setError('Failed to verify OTP or register. Please try again.');
     }
   };
-
-  const handleMobileNumberChange = (e) => {
-    const value = e.target.value;
-    if (/^\d*$/.test(value) && value.length <= 10) {
-      setMobileNumber(value);
-      setValidationErrors((prev) => ({ ...prev, mobileNumber: '' }));
-    } else {
-      setValidationErrors((prev) => ({ ...prev, mobileNumber: 'Mobile number must be exactly 10 digits and contain only numbers' }));
-    }
-  };
-
-  const handleMobileNumberBlur = () => {
-    if (!validateMobileNumber(mobileNumber)) {
-      setValidationErrors((prev) => ({ ...prev, mobileNumber: 'Mobile number must be exactly 10 digits' }));
-    }
-  };
-
-  const handleEmailChange = (e) => {
-    const value = e.target.value;
-    setEmail(value);
-    if (!validateEmail(value)) {
-      setValidationErrors((prev) => ({ ...prev, email: 'Invalid email format' }));
-    } else {
-      setValidationErrors((prev) => ({ ...prev, email: '' }));
-    }
-  };
-
-  const handleNameChange = (e) => {
-    const value = e.target.value;
-    if (/^[a-zA-Z\s]*$/.test(value)) {
-      setName(value);
-      setValidationErrors((prev) => ({ ...prev, name: '' }));
-    } else {
-      setValidationErrors((prev) => ({ ...prev, name: 'Name can only contain alphabets and spaces and must be at least 3 characters' }));
-    }
-  };
-
-  const isRegisterButtonDisabled = !validateName(name) || !validateEmail(email) || !validateMobileNumber(mobileNumber);
 
   return (
     <div className={styles.registerContainer}>
-      <div className={styles.logoContainer}>
-        <img src="/images/logo.png" alt="Logo" className={styles.logo} />
-      </div>
-      <h1>Register</h1>
-      <form className={styles.registerForm} onSubmit={(e) => e.preventDefault()}>
-        {!isOtpSent ? (
-          <>
-            <label>
-              Name:
-              <input
-                type="text"
-                placeholder="Enter your name"
-                value={name}
-                onChange={handleNameChange}
-                className={styles.input}
-              />
-              {validationErrors.name && <p className={styles.error}>{validationErrors.name}</p>}
-            </label>
-            <label>
-              Email:
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={handleEmailChange}
-                className={styles.input}
-              />
-              {validationErrors.email && <p className={styles.error}>{validationErrors.email}</p>}
-            </label>
-            <label>
-              Mobile Number:
-              <div className={styles.mobileInputContainer}>
-                <span className={styles.countryCode}>+91</span>
-                <input
-                  type="text"
-                  placeholder="Enter your mobile number"
-                  value={mobileNumber}
-                  onChange={handleMobileNumberChange}
-                  onBlur={handleMobileNumberBlur}
-                  className={styles.mobileInput}
-                  maxLength="10"
-                />
-              </div>
-              {validationErrors.mobileNumber && <p className={styles.error}>{validationErrors.mobileNumber}</p>}
-            </label>
-            <button type="button" onClick={handleRegister} disabled={isRegisterButtonDisabled}>Register</button>
-          </>
-        ) : (
-          <>
-            <label>
-              OTP:
-              <input
-                type="text"
-                placeholder="Enter the OTP"
+      <img src="/images/logo.png" alt="Logo" className={styles.logo} />
+      <div className={styles.registerBox}>
+        <h1>Register</h1>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <InputText
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter your name"
+          />
+          <InputText
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+          />
+          <Dropdown
+            value={selectedState}
+            options={states}
+            onChange={(e) => setSelectedState(e.value)}
+            placeholder="Select your state"
+          />
+          <Dropdown
+            value={selectedCounselling}
+            options={counsellingOptions}
+            onChange={(e) => setSelectedCounselling(e.value)}
+            placeholder="Preferred Counselling"
+          />
+          {isOtpSent ? (
+            <>
+              <InputText
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                className={styles.input}
+                maxLength="6"
+                placeholder="Enter OTP"
               />
-            </label>
-            <button type="button" onClick={handleVerifyOtp}>Verify OTP</button>
-          </>
-        )}
-        {error && <p className={styles.error}>{error}</p>}
-        {message && <p className={styles.message}>{message}</p>}
-      </form>
+              <Button label="Verify OTP & Register" onClick={handleVerifyOtp} />
+            </>
+          ) : (
+            <Button label="Send OTP" onClick={handleSendOtp} />
+          )}
+          {error && <p className={styles.errorMessage}>{error}</p>}
+        </form>
+      </div>
     </div>
   );
 };

@@ -9,13 +9,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 80px 0 0; /* Use padding-top instead of margin-top */
-  margin: 0; /* Remove margin */
+  padding: 80px 0 0;
+  margin: 0;
   text-align: center;
   background: url('/public/images/background-image.jpg') no-repeat center center;
   background-size: cover;
-  color: #fff; /* Ensure text is visible on the background */
-  min-height: calc(60vh + 80px); /* Adjust height to ensure proper spacing */
+  color: #fff;
+  min-height: calc(60vh + 80px);
   position: relative;
 }
 
@@ -26,7 +26,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  background: rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
 
@@ -36,18 +36,18 @@
 }
 
 .hero-section h1 {
-  font-size: 3rem;
+  font-size: 2.5rem; /* Reduced font size */
   margin-bottom: 20px;
 }
 
 .hero-section p {
-  font-size: 1.5rem;
+  font-size: 1.2rem; /* Reduced font size */
   margin-bottom: 20px;
 }
 
 .hero-section button {
   padding: 10px 20px;
-  font-size: 1.2rem;
+  font-size: 1rem; /* Reduced font size */
   color: #007bff;
   background-color: #fff;
   border: none;
@@ -66,34 +66,34 @@
   justify-content: space-between;
   align-items: center;
   padding: 40px 20px;
-  margin: 40px auto; /* Add margin for better spacing */
+  margin: 40px auto;
   text-align: left;
   background-color: #ffffff;
-  width: 100%; /* Use full width for container */
-  max-width: 1200px; /* Limit the max width of the section */
+  width: 100%;
+  max-width: 1200px;
   box-sizing: border-box;
 }
 
 .connectivity-content {
-  max-width: 50%; /* Use half the width for content */
+  max-width: 50%;
 }
 
 .connectivity-content h2 {
-  font-size: 2.5rem;
+  font-size: 2rem; /* Reduced font size */
   margin-bottom: 20px;
 }
 
 .connectivity-content p {
-  font-size: 1.2rem;
+  font-size: 1rem; /* Reduced font size */
   margin-bottom: 20px;
 }
 
 .connectivity-image {
-  max-width: 300px; /* Set the image width to 300px */
+  max-width: 300px;
 }
 
 .connectivity-image img {
-  width: 100%; /* Increase image to full width */
+  width: 100%;
   height: auto;
 }
 
@@ -101,9 +101,9 @@
   display: flex;
   justify-content: center;
   padding: 40px 20px;
-  flex-wrap: wrap; /* Allow icons to wrap on smaller screens */
-  gap: 40px; /* Increase space between icons */
-  background-color: #f0f4ff; /* Light background color for the section */
+  flex-wrap: wrap;
+  gap: 40px;
+  background-color: #f0f4ff;
 }
 
 .icon-section .icon {
@@ -111,11 +111,11 @@
   text-align: center;
   transition: transform 0.3s ease;
   padding: 20px;
-  background: #fff; /* White background for the icons */
+  background: #fff;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for better visibility */
-  text-decoration: none; /* Remove underline from links */
-  color: inherit; /* Inherit text color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: inherit;
 }
 
 .icon-section .icon:hover {
@@ -123,25 +123,26 @@
 }
 
 .icon-section .icon img {
-  width: 100px;
-  height: 100px;
+  width: 80px; /* Reduced image size */
+  height: 80px; /* Reduced image size */
 }
 
 .icon-section .icon p {
   margin-top: 10px;
-  font-size: 1.2rem;
+  font-size: 1rem; /* Reduced font size */
 }
 
 .features {
-  margin: 40px auto; /* Center align the section */
-  text-align: center; /* Center align the heading */
-  max-width: 1200px; /* Align with the connectivity section */
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #f9f9f9;
 }
 
 .features h2 {
   font-size: 2rem;
   margin-bottom: 20px;
   color: #004aad;
+  font-weight: bold;
 }
 
 .feature-cards {
@@ -157,46 +158,78 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  width: calc(33.333% - 40px); /* Adjust width to fit 3 in a row */
+  width: calc(33.333% - 20px);
   text-align: center;
-  box-sizing: border-box; /* Include padding in the element's total width and height */
+  box-sizing: border-box;
+}
+.features {
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.features h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #004aad;
+  font-weight: bold;
+}
+
+.feature-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.feature-card {
+  background-color: #f0f4ff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: calc(33.333% - 20px);
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .feature-card h3 {
-  font-size: 2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
   color: #004aad;
   margin-bottom: 10px;
 }
 
 .feature-card p {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #333;
+  font-weight: normal;
 }
 
 .subscribe-section {
-  background-color: #004aad; /* Blue background */
-  color: #fff; /* White text */
-  padding: 40px 20px;
+  background-color: #004aad;
+  color: #fff;
+  padding: 20px 20px;
   text-align: center;
 }
 
 .subscribe-section h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
 }
 
 .subscribe-section p {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
+  font-size: 1rem;
+  margin-bottom: 10px;
 }
 
 .subscribe-button {
   background-color: #fff;
   color: #004aad;
-  padding: 10px 20px;
+  padding: 8px 16px;
   border: none;
   border-radius: 5px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -206,22 +239,34 @@
   color: #00337c;
 }
 
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
   .feature-card {
-    width: calc(50% - 40px); /* Adjust width to fit 2 in a row on medium screens */
+    width: calc(50% - 20px);
   }
 
   .connectivity-section {
     flex-direction: column;
     text-align: center;
-    margin: 20px 0; /* Adjust margin for smaller screens */
+    margin: 20px 0;
   }
 
   .connectivity-content, .connectivity-image {
     flex: unset;
     padding: 0;
-    max-width: 100%; /* Use full width for both content and image on smaller screens */
+    max-width: 100%;
   }
 
   .connectivity-content {
@@ -235,7 +280,7 @@
 
 @media (max-width: 768px) {
   .feature-card {
-    width: calc(100% - 40px); /* Adjust width to fit 1 in a row on small screens */
+    width: calc(100% - 20px);
   }
 
   .connectivity-image img {

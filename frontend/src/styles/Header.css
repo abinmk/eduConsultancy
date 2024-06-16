@@ -1,48 +1,59 @@
+/* src/styles/Header.css */
 .header-container {
   position: sticky;
   top: 0;
-  background-color: #fff; /* White background */
-  color: #004aad; /* Primary color for text */
+  z-index: 1000;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 8px 20px; /* Adjusted padding */
-  z-index: 1000;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: padding 0.3s ease, background-color 0.3s ease;
+  align-items: center; /* Align items vertically in the center */
+  padding: 10px 20px;
 }
 
-.header-container.scrolled {
-  padding: 5px 20px; /* Less padding on scroll */
-}
-
-.header-logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #004aad;
-  margin-left: 10px;
-  text-decoration: none;
-  transition: transform 0.3s ease;
-}
-
-.header-logo:hover {
-  transform: scale(1.05);
-}
-
-.logo-image {
-  height: 40px; /* Adjust the height as needed */
-}
-
-.header-nav {
+.header-container .logo {
   display: flex;
-  gap: 15px;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
+  align-items: center; /* Align logo vertically in the center */
 }
 
-.header-nav a {
-  color: #004aad; /* Primary color for text */
+.header-container .logo img {
+  height: 40px; /* Adjust the height to match the nav items */
+}
+
+.header-container .nav-links {
+  display: flex;
+  align-items: center; /* Align navigation items vertically in the center */
+  gap: 20px;
+}
+
+.header-container .nav-links a {
+  color: #004aad;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 3px;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  display: flex;
+  align-items: center; /* Align icons and text vertically in the center */
+  gap: 8px;
+}
+
+.header-container .nav-links a:hover {
+  color: #fff;
+  background-color: #004aad;
+}
+
+.header-container .user-actions {
+  display: flex;
+  align-items: center; /* Align user actions vertically in the center */
+  gap: 10px; /* Adjust gap for better alignment */
+}
+
+.header-container .user-actions .profile-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #004aad;
   text-decoration: none;
   font-size: 1rem;
   padding: 8px 12px;
@@ -50,106 +61,25 @@
   transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-.header-nav a:hover {
-  color: #fff;
-  background-color: #004aad; /* Invert colors on hover */
-}
-
-.header-login {
-  background-color: #ffcc00;
-  color: #004aad;
-  padding: 8px 12px;
-  border-radius: 3px;
-  text-decoration: none;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  margin-left: auto;
-}
-
-.header-login:hover {
-  background-color: #ffd633;
-  transform: scale(1.05);
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.header-profile {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: inherit;
-}
-
-.user-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.profile-text {
-  font-size: 1rem;
-  color: #004aad;
-}
-
-.header-logout {
-  padding: 8px 12px;
-  font-size: 1rem;
+.header-container .user-actions .profile-link:hover {
   color: #fff;
   background-color: #004aad;
+}
+
+.header-container .user-actions .login-button,
+.header-container .user-actions .logout-button {
+  background-color: #ffcc00; /* Yellow background for logout button */
+  color: #004aad;
+  padding: 8px 12px;
   border: none;
   border-radius: 3px;
   cursor: pointer;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.header-logout:hover {
-  background-color: #00337c;
-  transform: scale(1.05);
-}
-
-.menu-icon {
-  display: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #004aad;
-  margin-left: 20px;
-}
-
-.header-nav.open {
+  transition: background-color 0.3s ease;
   display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: #fff;
-  padding-top: 60px;
-  padding-bottom: 20px;
-  height: 100vh;
-  overflow-y: auto;
-  z-index: 999;
+  align-items: center; /* Ensure buttons align center vertically */
 }
 
-.header-nav a {
-  padding: 10px 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border for separation */
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .header-nav {
-    display: none;
-  }
-
-  .menu-icon {
-    display: block;
-  }
-
-  .header-login {
-    display: none;
-  }
+.header-container .user-actions .login-button:hover,
+.header-container .user-actions .logout-button:hover {
+  background-color: #ffd633; /* Slightly darker yellow on hover */
 }

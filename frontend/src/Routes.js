@@ -1,34 +1,32 @@
+// src/Routes.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import Allotments from './pages/Allotments';
 import LastRanks from './pages/LastRanks';
 import Fees from './pages/Fees';
+import Colleges from './pages/Colleges';
 import Courses from './pages/Courses';
-import Institutes from './pages/Institutes';
-import Announcements from './pages/Announcements';
-import Login from './pages/Login';
-import Register from './pages/Register'; 
-import UserProfile from './pages/UserProfile'; // Import the UserProfile page
-import AdminPanel from './pages/AdminPanel';
-import PrivateRoute from './components/PrivateRoute';
+import Wishlist from './pages/Wishlist';
 
-const AppRoutes = () => (
-  <Router>
+const AppRoutes = () => {
+  return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/allotments" element={<Allotments />} />
       <Route path="/last-ranks" element={<LastRanks />} />
       <Route path="/fees" element={<Fees />} />
+      <Route path="/colleges" element={<Colleges />} />
       <Route path="/courses" element={<Courses />} />
-      <Route path="/institutes" element={<Institutes />} />
-      <Route path="/announcements" element={<Announcements />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/user-profile" element={<PrivateRoute element={UserProfile} />} />
-      <Route path="/admin" element={<PrivateRoute element={AdminPanel} />} />
+      <Route path="/wishlist" element={<Wishlist />} />
     </Routes>
-  </Router>
-);
+  );
+};
 
 export default AppRoutes;
