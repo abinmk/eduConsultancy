@@ -6,14 +6,16 @@ const mongoose = require('mongoose');
 const app = express();
 const port = process.env.PORT || 5001;
 
+// CORS Configuration
 app.use(cors({
-  origin: '*', // or specify your frontend URL
+  origin: 'http://rankandseats.s3-website-ap-southeast-2.amazonaws.com', // or specify your frontend URL
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true
 }));
 
 app.use(express.json());
 
+// MongoDB connection
 const db = process.env.MONGO_URI;
 if (!db) {
   console.error('MONGO_URI environment variable is not defined');
@@ -27,8 +29,10 @@ mongoose.connect(db, {
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
+// Routes
 app.use('/api/auth', require('./routes/auth'));
 
+// Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
