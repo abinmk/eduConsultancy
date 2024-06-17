@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT || 5001;
 
 app.use(cors({
-  origin: ['http://rankandseats.s3-website-ap-southeast-2.amazonaws.com', 'http://localhost:3000'],
+  origin: 'http://rankandseats.s3-website-ap-southeast-2.amazonaws.com', 
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true
 }));
