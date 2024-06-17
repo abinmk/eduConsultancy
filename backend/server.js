@@ -4,17 +4,23 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 
 const app = express();
-const port = process.env.PORT || 5002;
+const port = process.env.PORT || 5001;
 
-// Middleware
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: '*', // or specify your frontend URL
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true
 }));
+
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI, {
+const db = process.env.MONGO_URI;
+if (!db) {
+  console.error('MONGO_URI environment variable is not defined');
+  process.exit(1);
+}
+
+mongoose.connect(db, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
