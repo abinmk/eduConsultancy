@@ -29,6 +29,7 @@ mongoose.connect(db, {
 
 app.use('/api/auth', require('./routes/auth'));
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Server running on port ${port}`);
 });
+
