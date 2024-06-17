@@ -2,10 +2,9 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: process.env.REACT_APP_API_URL || 'http://ec2-3-27-161-167.ap-southeast-2.compute.amazonaws.com:5001/api',
 });
 
-// Add a request interceptor to attach the token to every request
 instance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');

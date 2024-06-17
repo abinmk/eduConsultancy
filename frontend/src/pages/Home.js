@@ -11,11 +11,11 @@ const Home = () => {
 
   return (
     <Layout>
-      <section className="hero-section">
+      {/* <section className="hero-section">
         <h1>Welcome to Our Educational Consultancy</h1>
         <p>Providing comprehensive services to help you achieve your educational goals.</p>
         <Button label="Learn More" />
-      </section>
+      </section> */}
 
       <section className="connectivity-section">
         <div className="connectivity-content">

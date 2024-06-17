@@ -1,34 +1,42 @@
-/* src/styles/Login.module.css */
+/* Container for the whole login page */
 .loginContainer {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 100vh;
-  background-color: #f9f9f9;
-}
-
-.loginBox {
-  background-color: #fff;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  width: 300px;
+  background: linear-gradient(135deg, #f6fcfd, #e5edee7a, #fcf4f7);
+  overflow: hidden;
   position: relative;
 }
 
 .logoContainer {
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .logo {
-  width: 150px; /* Adjust size as needed */
+  max-width: 180px; /* Increased size */
+  animation: slideIn 0.6s ease-in-out;
 }
 
-.loginBox h1 {
+.loginBox {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  animation: popIn 0.5s ease-in-out;
+  width: 100%;
+  max-width: 400px;
+  z-index: 1;
+}
+
+h1 {
+  font-size: 1.8rem;
   margin-bottom: 20px;
-  color: #004aad;
+  color: #333;
 }
 
 .mobileInputContainer {
@@ -37,13 +45,198 @@
   margin-bottom: 20px;
 }
 
-.inputField {
-  width: calc(100% - 40px);
+.inputAddon {
   padding: 10px;
-  margin-left: 10px;
+  background: #ddd;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.inputText {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.inputText:focus {
+  border-color: #5151e5;
+  box-shadow: 0 0 10px rgba(81, 81, 229, 0.2);
+}
+
+.inputText:hover {
+  border-color: #5151e5;
+}
+
+.button {
+  background: #5151e5;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.button:hover {
+  background: #3b3bce;
+  transform: scale(1.05);
+}
+
+.button:active {
+  background: #2a2a94;
+  transform: scale(0.95);
 }
 
 .errorMessage {
   color: red;
   margin-top: 10px;
+}
+
+.timerMessage {
+  color: #333;
+  margin-top: 10px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-100px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Background patterns with animated circles, triangles, and lines */
+.backgroundPattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.circle, .triangle, .line {
+  position: absolute;
+  opacity: 0.4;
+  animation: move 5s infinite, pulse 4s infinite alternate;
+}
+
+.circle {
+  border-radius: 50%;
+  background: rgba(144, 238, 144, 0.5); /* Light green */
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 35px solid rgba(173, 216, 230, 0.5); /* Light blue */
+}
+
+.line {
+  width: 2px;
+  height: 75px;
+  background: rgba(255, 182, 193, 0.5); /* Light pink */
+}
+
+.circle1 {
+  width: 80px;
+  height: 80px;
+  top: 10%;
+  left: 20%;
+  animation-duration: 18s;
+}
+
+.circle2 {
+  width: 60px;
+  height: 60px;
+  top: 30%;
+  left: 70%;
+  animation-duration: 22s;
+}
+
+.circle3 {
+  width: 40px;
+  height: 40px;
+  top: 60%;
+  left: 50%;
+  animation-duration: 20s;
+}
+
+.circle4 {
+  width: 100px;
+  height: 100px;
+  top: 80%;
+  left: 10%;
+  animation-duration: 25s;
+}
+
+.triangle1 {
+  top: 15%;
+  left: 60%;
+  animation-duration: 20s;
+}
+
+.triangle2 {
+  top: 40%;
+  left: 30%;
+  animation-duration: 25s;
+}
+
+.line1 {
+  top: 75%;
+  left: 40%;
+  animation-duration: 18s;
+}
+
+.line2 {
+  top: 50%;
+  left: 80%;
+  animation-duration: 22s;
+}
+
+@keyframes move {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-20px) translateX(20px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
 }
