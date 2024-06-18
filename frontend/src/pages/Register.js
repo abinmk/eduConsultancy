@@ -10,7 +10,7 @@ const Register = () => {
   const { state } = useLocation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [mobileNumber] = useState(state.mobileNumber);
+  const [mobileNumber] = useState(state ? state.mobileNumber : '');
   const [otp, setOtp] = useState('');
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [error, setError] = useState('');
@@ -48,7 +48,6 @@ const Register = () => {
     { label: 'Uttarakhand', value: 'Uttarakhand' },
     { label: 'West Bengal', value: 'West Bengal' },
   ];
-  
 
   const counsellingOptions = [
     { label: 'NEET PG', value: 'NEET PG' },
@@ -60,7 +59,7 @@ const Register = () => {
   const handleSendOtp = async () => {
     if (mobileNumber.length === 10) {
       try {
-        await axios.post('http://rankseatsbucket.s3-website-ap-southeast-2.amazonaws.com:5001/api/auth/send-otp-register', {
+        await axios.post('http://ec2-52-63-164-69.ap-southeast-2.compute.amazonaws.com:5001/api/auth/send-otp-register', {
           mobileNumber: '+91' + mobileNumber
         });
         setIsOtpSent(true);
@@ -75,7 +74,7 @@ const Register = () => {
 
   const handleVerifyOtp = async () => {
     try {
-      const response = await axios.post('http://rankseatsbucket.s3-website-ap-southeast-2.amazonaws.com:5001/api/auth/verify-otp-register', {
+      const response = await axios.post('http://ec2-52-63-164-69.ap-southeast-2.compute.amazonaws.com:5001/api/auth/verify-otp-register', {
         name,
         email,
         mobileNumber: '+91' + mobileNumber,
