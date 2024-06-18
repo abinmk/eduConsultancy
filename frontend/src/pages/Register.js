@@ -1,4 +1,3 @@
-// src/pages/Register.js
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -20,10 +19,36 @@ const Register = () => {
   const navigate = useNavigate();
 
   const states = [
+    { label: 'Kerala', value: 'Kerala' },
     { label: 'Andhra Pradesh', value: 'Andhra Pradesh' },
     { label: 'Arunachal Pradesh', value: 'Arunachal Pradesh' },
-    // Add all other states
+    { label: 'Assam', value: 'Assam' },
+    { label: 'Bihar', value: 'Bihar' },
+    { label: 'Chhattisgarh', value: 'Chhattisgarh' },
+    { label: 'Goa', value: 'Goa' },
+    { label: 'Gujarat', value: 'Gujarat' },
+    { label: 'Haryana', value: 'Haryana' },
+    { label: 'Himachal Pradesh', value: 'Himachal Pradesh' },
+    { label: 'Jharkhand', value: 'Jharkhand' },
+    { label: 'Karnataka', value: 'Karnataka' },
+    { label: 'Madhya Pradesh', value: 'Madhya Pradesh' },
+    { label: 'Maharashtra', value: 'Maharashtra' },
+    { label: 'Manipur', value: 'Manipur' },
+    { label: 'Meghalaya', value: 'Meghalaya' },
+    { label: 'Mizoram', value: 'Mizoram' },
+    { label: 'Nagaland', value: 'Nagaland' },
+    { label: 'Odisha', value: 'Odisha' },
+    { label: 'Punjab', value: 'Punjab' },
+    { label: 'Rajasthan', value: 'Rajasthan' },
+    { label: 'Sikkim', value: 'Sikkim' },
+    { label: 'Tamil Nadu', value: 'Tamil Nadu' },
+    { label: 'Telangana', value: 'Telangana' },
+    { label: 'Tripura', value: 'Tripura' },
+    { label: 'Uttar Pradesh', value: 'Uttar Pradesh' },
+    { label: 'Uttarakhand', value: 'Uttarakhand' },
+    { label: 'West Bengal', value: 'West Bengal' },
   ];
+  
 
   const counsellingOptions = [
     { label: 'NEET PG', value: 'NEET PG' },
@@ -35,7 +60,7 @@ const Register = () => {
   const handleSendOtp = async () => {
     if (mobileNumber.length === 10) {
       try {
-        await axios.post('http://localhost:5001/api/auth/send-otp-register', {
+        await axios.post('http://rankseatsbucket.s3-website-ap-southeast-2.amazonaws.com:5001/api/auth/send-otp-register', {
           mobileNumber: '+91' + mobileNumber
         });
         setIsOtpSent(true);
@@ -50,7 +75,7 @@ const Register = () => {
 
   const handleVerifyOtp = async () => {
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/verify-otp-register', {
+      const response = await axios.post('http://rankseatsbucket.s3-website-ap-southeast-2.amazonaws.com:5001/api/auth/verify-otp-register', {
         name,
         email,
         mobileNumber: '+91' + mobileNumber,
@@ -68,31 +93,37 @@ const Register = () => {
 
   return (
     <div className={styles.registerContainer}>
-      <img src="/images/logo.png" alt="Logo" className={styles.logo} />
       <div className={styles.registerBox}>
+        <div className={styles.logoContainer}>
+          <img src="/images/logo.png" alt="Logo" className={styles.logo} />
+        </div>
         <h1>Register</h1>
         <form onSubmit={(e) => e.preventDefault()}>
           <InputText
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Enter your name"
+            className={styles.inputField}
           />
           <InputText
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
+            className={styles.inputField}
           />
           <Dropdown
             value={selectedState}
             options={states}
             onChange={(e) => setSelectedState(e.value)}
             placeholder="Select your state"
+            className={styles.inputField}
           />
           <Dropdown
             value={selectedCounselling}
             options={counsellingOptions}
             onChange={(e) => setSelectedCounselling(e.value)}
             placeholder="Preferred Counselling"
+            className={styles.inputField}
           />
           {isOtpSent ? (
             <>
@@ -101,11 +132,12 @@ const Register = () => {
                 onChange={(e) => setOtp(e.target.value)}
                 maxLength="6"
                 placeholder="Enter OTP"
+                className={styles.inputField}
               />
-              <Button label="Verify OTP & Register" onClick={handleVerifyOtp} />
+              <Button label="Verify OTP & Register" onClick={handleVerifyOtp} className={styles.button} />
             </>
           ) : (
-            <Button label="Send OTP" onClick={handleSendOtp} />
+            <Button label="Send OTP" onClick={handleSendOtp} className={styles.button} />
           )}
           {error && <p className={styles.errorMessage}>{error}</p>}
         </form>

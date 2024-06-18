@@ -1,6 +1,6 @@
 // src/Routes.js
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -11,6 +11,12 @@ import Fees from './pages/Fees';
 import Colleges from './pages/Colleges';
 import Courses from './pages/Courses';
 import Wishlist from './pages/Wishlist';
+import { UserContext } from './contexts/UserContext';
+
+const PrivateRoute = ({ children }) => {
+  const { user } = useContext(UserContext);
+  return user ? children : <Navigate to="/login" />;
+};
 
 const AppRoutes = () => {
   return (
@@ -18,13 +24,13 @@ const AppRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/allotments" element={<Allotments />} />
-      <Route path="/last-ranks" element={<LastRanks />} />
-      <Route path="/fees" element={<Fees />} />
-      <Route path="/colleges" element={<Colleges />} />
-      <Route path="/courses" element={<Courses />} />
-      <Route path="/wishlist" element={<Wishlist />} />
+      <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+      <Route path="/allotments" element={<PrivateRoute><Allotments /></PrivateRoute>} />
+      <Route path="/last-ranks" element={<PrivateRoute><LastRanks /></PrivateRoute>} />
+      <Route path="/fees" element={<PrivateRoute><Fees /></PrivateRoute>} />
+      <Route path="/colleges" element={<PrivateRoute><Colleges /></PrivateRoute>} />
+      <Route path="/courses" element={<PrivateRoute><Courses /></PrivateRoute>} />
+      <Route path="/wishlist" element={<PrivateRoute><Wishlist /></PrivateRoute>} />
     </Routes>
   );
 };

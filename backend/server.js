@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT || 5001;
 
 app.use(cors({
-  origin: 'http://rankseatsbucket.s3-website-ap-southeast-2.amazonaws.com', 
+  origin: 'http://rankseatsbucket.s3-website-ap-southeast-2.amazonaws.com', // Frontend URL
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true
 }));
@@ -29,7 +29,6 @@ mongoose.connect(db, {
 
 app.use('/api/auth', require('./routes/auth'));
 
-app.listen(port, '0.0.0.0', () => {
+app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-

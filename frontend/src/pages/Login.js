@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
+// src/pages/Login.js
+import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance';
 import { UserContext } from '../contexts/UserContext';
@@ -11,19 +12,8 @@ const Login = () => {
   const [otp, setOtp] = useState('');
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [error, setError] = useState('');
-  const [timer, setTimer] = useState(0);
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
-
-  useEffect(() => {
-    let interval;
-    if (timer > 0) {
-      interval = setInterval(() => {
-        setTimer((prev) => prev - 1);
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [timer]);
+  const { login } = useContext(UserContext);
 
   const handleSendOtp = async () => {
     if (mobileNumber.length === 10) {
@@ -33,7 +23,6 @@ const Login = () => {
         });
         setIsOtpSent(true);
         setError('');
-        setTimer(30);
       } catch (error) {
         if (error.response && error.response.data.message === 'User not registered') {
           navigate('/register', { state: { mobileNumber } });
@@ -53,22 +42,11 @@ const Login = () => {
         code: otp
       });
       const { token, userExists, user } = response.data;
-      localStorage.setItem('token', token);
-      if (userExists) {
-        setUser(user);
-        navigate('/dashboard');
-      } else {
-        navigate('/register', { state: { mobileNumber } });
-      }
+      login(user, token);
+      navigate('/dashboard');
     } catch (error) {
       setError('Failed to verify OTP. Please try again.');
     }
-  };
-
-  const handleChangeNumber = () => {
-    setIsOtpSent(false);
-    setOtp('');
-    setTimer(0);
   };
 
   return (
@@ -111,12 +89,7 @@ const Login = () => {
                 type="tel"
               />
               <Button label="Verify OTP" className={styles.button} onClick={handleVerifyOtp} />
-              <Button label="Change Number" className={styles.button} onClick={handleChangeNumber} />
-              {timer > 0 ? (
-                <p className={styles.timerMessage}>Resend OTP in {timer} seconds</p>
-              ) : (
-                <Button label="Resend OTP" className={styles.button} onClick={handleSendOtp} />
-              )}
+              <Button label="Change Number" className={styles.button} onClick={() => setIsOtpSent(false)} />
             </>
           ) : (
             <Button label="Send OTP" className={styles.button} onClick={handleSendOtp} />
