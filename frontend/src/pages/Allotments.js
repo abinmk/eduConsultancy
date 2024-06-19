@@ -4,8 +4,6 @@ import '../styles/Allotments.css';
 import Layout from '../components/Layout';
 import ReactPaginate from 'react-paginate';
 
-
-
 const Allotments = () => {
     const [data, setData] = useState([]);
     const [filters, setFilters] = useState({
@@ -13,56 +11,75 @@ const Allotments = () => {
         institute: '',
         course: '',
         allottedCategory:'',
-        candidateCategory:''
+        candidateCategory:'',
+        quotas: [],
+        institutes: [],
+        courses: [],
+        allottedCategory: [],
+        candidateCategory: []
     });
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const itemsPerPage = 10;
 
-    useEffect(() => {
-      const fetchFilterOptions = async () => {
-          try {
-              const response = await axios.get('http://localhost:5001/api/filter-options');
-              setFilters(prevFilters => ({
-                  ...prevFilters,
-                  quotas: response.data.quotas,
-                  institutes: response.data.institutes,
-                  courses: response.data.courses,
-                  allottedCategory:response.allottedCategory,
-                  candidateCategory:response.candidateCategory
-              }));
-          } catch (error) {
-              console.error('Error fetching filter options:', error);
-          }
-      };
-    
-      fetchFilterOptions();
-    }, []);
-    
-
     const fetchData = async (page = 1) => {
-      setLoading(true);
-      try {
-          const response = await axios.get('http://localhost:5001/api/allotment-data', {
-              params: {
-                  page,
-                  limit: itemsPerPage,
-                  ...filters
-              }
-          });
-          setData(response.data.data);
-          setTotalPages(response.data.totalPages);
-          setCurrentPage(response.data.currentPage - 1);
-      } catch (error) {
-          console.error('Error fetching data:', error);
-      } finally {
-          setLoading(false);
-      }
-  };
-  
+        setLoading(true);
+        try {
+            const response = await axios.get('http://localhost:5001/api/allotment-data', {
+                params: {
+                    page,
+                    limit: itemsPerPage,
+                    quota: filters.quota,
+                    institute: filters.institute,
+                    course: filters.course,
+                    allottedCategory: filters.allottedCategory,
+                    candidateCategory: filters.candidateCategory
+                }
+            });
+            setData(response.data.data || []);
+            setTotalPages(response.data.totalPages || 0);
+            setCurrentPage((response.data.currentPage || 1) - 1);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setData([]);
+            setTotalPages(0);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchFilterOptions = async () => {
+        try {
+            const response = await axios.get('http://localhost:5001/api/filter-options');
+            console.log('Filter options response:', response.data); // Log the response
+            setFilters(prevFilters => ({
+                ...prevFilters,
+                quotas: Array.isArray(response.data.quotas) ? response.data.quotas : [],
+                institutes: Array.isArray(response.data.institutes) ? response.data.institutes : [],
+                courses: Array.isArray(response.data.courses) ? response.data.courses : [],
+                allottedCategory: Array.isArray(response.data.allottedCategory) ? response.data.allottedCategory : [],
+                candidateCategory: Array.isArray(response.data.candidateCategory) ? response.data.candidateCategory : []
+            }));
+        } catch (error) {
+            console.error('Error fetching filter options:', error);
+            setFilters(prevFilters => ({
+                ...prevFilters,
+                quotas: [],
+                institutes: [],
+                courses: [],
+                allottedCategory: [],
+                candidateCategory: []
+            }));
+        }
+    };
+
     useEffect(() => {
-        fetchData();
+        fetchFilterOptions();
+    }, []);
+
+    useEffect(() => {
+        fetchData(currentPage + 1);
     }, [filters, currentPage]);
 
     const handleFilterChange = (e) => {
@@ -73,7 +90,7 @@ const Allotments = () => {
     };
 
     const handlePageClick = (event) => {
-        fetchData(event.selected + 1);
+        setCurrentPage(event.selected);
     };
 
     return (
@@ -88,15 +105,33 @@ const Allotments = () => {
                             <div className="filter-row">
                                 <select name="quota" value={filters.quota} onChange={handleFilterChange}>
                                     <option value="">Select Quota</option>
-                                    {/* Dynamically generate options based on available quotas */}
+                                    {filters.quotas.map((quota, index) => (
+                                        <option key={index} value={quota}>{quota}</option>
+                                    ))}
                                 </select>
                                 <select name="institute" value={filters.institute} onChange={handleFilterChange}>
                                     <option value="">Select Institute</option>
-                                    {/* Dynamically generate options based on available institutes */}
+                                    {filters.institutes.map((institute, index) => (
+                                        <option key={index} value={institute}>{institute}</option>
+                                    ))}
                                 </select>
                                 <select name="course" value={filters.course} onChange={handleFilterChange}>
                                     <option value="">Select Course</option>
-                                    {/* Dynamically generate options based on available courses */}
+                                    {filters.courses.map((course, index) => (
+                                        <option key={index} value={course}>{course}</option>
+                                    ))}
+                                </select>
+                                <select name="allottedCategory" value={filters.allottedCategory} onChange={handleFilterChange}>
+                                    <option value="">Select Category</option>
+                                    {Array.isArray(filters.allottedCategory) && filters.allottedCategory.map((allottedCategory, index) => (
+                                        <option key={index} value={allottedCategory}>{allottedCategory}</option>
+                                    ))}
+                                </select>
+                                <select name="candidateCategory" value={filters.candidateCategory} onChange={handleFilterChange}>
+                                    <option value="">Select Candidate Category</option>
+                                    {Array.isArray(filters.candidateCategory) && filters.candidateCategory.map((candidateCategory, index) => (
+                                        <option key={index} value={candidateCategory}>{candidateCategory}</option>
+                                    ))}
                                 </select>
                             </div>
                         </div>
@@ -108,17 +143,27 @@ const Allotments = () => {
                                     <th>Allotted Quota</th>
                                     <th>Allotted Institute</th>
                                     <th>Course</th>
+                                    <th>Allotted Category</th>
+                                    <th>Candidate Category</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map((item, index) => (
-                                    <tr key={index}>
-                                        <td>{item.rank}</td>
-                                        <td>{item.allottedQuota}</td>
-                                        <td>{item.allottedInstitute}</td>
-                                        <td>{item.course}</td>
+                                {Array.isArray(data) && data.length > 0 ? (
+                                    data.map((item, index) => (
+                                        <tr key={index}>
+                                            <td>{item.rank}</td>
+                                            <td>{item.allottedQuota}</td>
+                                            <td>{item.allottedInstitute}</td>
+                                            <td>{item.course}</td>
+                                            <td>{item.allottedCategory}</td>
+                                            <td>{item.candidateCategory}</td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="6">No data available</td>
                                     </tr>
-                                ))}
+                                )}
                             </tbody>
                         </table>
 

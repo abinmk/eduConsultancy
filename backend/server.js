@@ -34,6 +34,16 @@ mongoose.connect(db, {
 app.use('/api/auth', authRoutes);
 app.use('/api', uploadRoutes);  // Base path for all upload routes
 
+app.get('/api/courses', (req, res) => {
+  Result.find({}, 'course', (err, courses) => {
+    if (err) {
+      return res.status(500).send('Error fetching courses');
+    }
+    res.json(courses);
+  });
+});
+
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
