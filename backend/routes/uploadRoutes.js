@@ -52,9 +52,9 @@ router.get('/filter-options', async (req, res) => {
         const quotas = await Result.distinct('allottedQuota');
         const institutes = await Result.distinct('allottedInstitute');
         const courses = await Result.distinct('course');
-        const allottedCategory = await Result.distinct('allottedCategory');
-        const candidateCategory = await Result.distinct('candidateCategory');
-        res.json({ quotas, institutes, courses ,allottedCategory,candidateCategory});
+        const allottedCategories = await Result.distinct('allottedCategory');
+        const candidateCategories = await Result.distinct('candidateCategory');
+        res.json({ quotas, institutes, courses ,allottedCategories,candidateCategories});
     } catch (error) {
         console.error('Failed to fetch filter options', error);
         res.status(500).send('Failed to fetch filter options');

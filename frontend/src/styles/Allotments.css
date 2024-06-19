@@ -20,23 +20,48 @@
 
 .filter-row {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
   gap: 10px;
   width: 100%;
-  max-width: 600px;
+  max-width: 1200px;
+  justify-content: space-between;
 }
 
-#round{
+.filter-row .react-select__control {
+  min-width: 200px;
+  flex: 1;
+}
+
+.filter-row .full-width-select .react-select__control {
   width: 100%;
 }
 
-.filter-section input,
-.filter-section select {
-  width: 50%;
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.filter-row .react-select__menu {
+  max-width: 100vw; /* Constrain dropdown to viewport width */
+  max-height: 300px; /* Maximum height for the dropdown */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Disable horizontal scrolling */
+  background-color: rgba(0, 0, 0, 0.8); /* Darker background with more opacity */
+  color: #fff; /* White text for better contrast */
+  border: 1px solid #ccc; /* Add border for better visibility */
+}
+
+.filter-row .react-select__option {
+  background-color: transparent; /* Ensure options have transparent background */
+  color: #fff; /* White text for options */
+}
+
+.filter-row .react-select__option--is-focused {
+  background-color: rgba(255, 255, 255, 0.2); /* Light background for focused option */
+}
+
+.filter-row .react-select__option--is-selected {
+  background-color: rgba(255, 255, 255, 0.4); /* Light background for selected option */
+}
+
+.column-toggle {
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 table {
@@ -54,6 +79,15 @@ th, td {
 th {
   background-color: #004aad;
   color: #fff;
+  cursor: pointer;
+}
+
+th.sort-asc::after {
+  content: " 🔼";
+}
+
+th.sort-desc::after {
+  content: " 🔽";
 }
 
 tbody tr:nth-child(even) {
@@ -65,6 +99,7 @@ tbody tr:nth-child(even) {
   color: #004aad;
   margin-top: 20px;
 }
+
 .pagination {
   display: flex;
   justify-content: center;
