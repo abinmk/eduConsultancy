@@ -1,0 +1,56 @@
+.dashboard {
+    display: flex;
+    top:30px;
+  }
+
+  
+  .sidebar {
+    width: 250px;
+    background-color: #2e3b4e;
+    color: white;
+    height: 100vh;
+    position: fixed;
+  }
+  
+  .sidebar .logo {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+    border-bottom: 1px solid #4b5968;
+  }
+  
+  .sidebar nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar nav ul li {
+    padding: 15px 20px;
+    border-bottom: 1px solid #4b5968;
+  }
+  
+  .sidebar nav ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .main-content {
+    margin-left: 250px;
+    padding: 20px;
+    width: 100%;
+  }
+  
+  .main-content header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .main-content .content {
+    margin-top: 20px;
+  }
+  

@@ -1,0 +1,24 @@
+.user-profile {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.profile-info {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info p {
+  margin: 10px 0;
+}
+
+.profile-packages {
+  margin-top: 20px;
+}
+
+.profile-packages h3 {
+  margin-bottom: 10px;
+}

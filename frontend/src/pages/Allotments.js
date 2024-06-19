@@ -5,8 +5,11 @@ import ReactPaginate from 'react-paginate';
 
 const Allotments = () => {
   const [data, setData] = useState([]);
-  const [selectedRound, setSelectedRound] = useState('1'); // Default to Round 1
-  const [filteredData, setFilteredData] = useState([]);
+  const [options, setOptions] = useState({
+    quotas: [],
+    institutes: [],
+    courses: []
+  });
   const [filters, setFilters] = useState({
     rankMin: '',
     rankMax: '',
@@ -14,51 +17,49 @@ const Allotments = () => {
     institute: '',
     course: ''
   });
+  const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 8;
 
+  // Fetch data when component mounts
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const filePath = `/allotments${selectedRound}.json`;
-        const response = await fetch(filePath);
-        const result = await response.json();
-        setData(result);
-        setFilteredData(result);
-        setCurrentPage(0); // Reset to the first page
+          const response = await fetch('http://localhost:5001/api/allotment-data');
+          if (!response.ok) {
+              throw new Error('Network response was not ok: ' + await response.text());
+          }
+          const data = await response.json();
+          setData(data);
+          setFilteredData(data);
+          setCurrentPage(0);
       } catch (error) {
-        console.error('Error fetching data:', error);
+          console.error('Error fetching data:', error.message || error);
       } finally {
-        setLoading(false);
+          setLoading(false);
       }
-    };
+  };  
 
     fetchData();
-  }, [selectedRound]);
+  }, []);
 
+  // Filter data based on user inputs
   useEffect(() => {
-    if (!loading) {
-      const filtered = data.filter(item =>
-        (filters.rankMin === '' || item.Rank >= parseInt(filters.rankMin)) &&
-        (filters.rankMax === '' || item.Rank <= parseInt(filters.rankMax)) &&
-        (filters.quota === '' || item['Allotted Quota'] === filters.quota) &&
-        (filters.institute === '' || item['Allotted Institute'] === filters.institute) &&
-        (filters.course === '' || item.Course === filters.course)
-      );
-      setFilteredData(filtered);
-      setCurrentPage(0);
-    }
-  }, [filters, data, loading]);
+    const filtered = data.filter(item =>
+      (filters.rankMin === '' || item.Rank >= parseInt(filters.rankMin)) &&
+      (filters.rankMax === '' || item.Rank <= parseInt(filters.rankMax)) &&
+      (filters.quota === '' || item['Allotted Quota'] === filters.quota) &&
+      (filters.institute === '' || item['Allotted Institute'] === filters.institute) &&
+      (filters.course === '' || item.Course === filters.course)
+    );
+    setFilteredData(filtered);
+    setCurrentPage(0);
+  }, [filters, data]);
 
   const handlePageClick = (event) => {
     setCurrentPage(event.selected);
-  };
-
-  const handleRoundChange = (e) => {
-    setSelectedRound(e.target.value);
-    setFilters({ rankMin: '', rankMax: '', quota: '', institute: '', course: '' }); // Reset filters on round change
   };
 
   const handleChange = (e) => {
@@ -66,10 +67,6 @@ const Allotments = () => {
       ...filters,
       [e.target.name]: e.target.value
     });
-  };
-
-  const uniqueValues = (key) => {
-    return [...new Set(data.map(item => item[key]))];
   };
 
   const offset = currentPage * itemsPerPage;
@@ -86,14 +83,6 @@ const Allotments = () => {
           <>
             <div className="filter-section">
               <div className="filter-row">
-                <select id="round" value={selectedRound} onChange={handleRoundChange}>
-                  <option value="1">NEET-PG Counselling Seats Allotment - 2023 Round 1</option>
-                  {/* <option value="2">NEET-PG Counselling Seats Allotment - 2023 Round 2</option>
-                  <option value="3">NEET-PG Counselling Seats Allotment - 2023 Round 3</option> */}
-                </select>
-              </div>
-
-              <div className="filter-row">
                 <input
                   type="number"
                   name="rankMin"
@@ -108,25 +97,21 @@ const Allotments = () => {
                   value={filters.rankMax}
                   onChange={handleChange}
                 />
-              </div>
-              <div className="filter-row">
                 <select name="quota" value={filters.quota} onChange={handleChange}>
                   <option value="">Select Quota</option>
-                  {uniqueValues('Allotted Quota').map((quota, index) => (
+                  {options.quotas.map((quota, index) => (
                     <option key={index} value={quota}>{quota}</option>
                   ))}
                 </select>
                 <select name="institute" value={filters.institute} onChange={handleChange}>
                   <option value="">Select Institute</option>
-                  {uniqueValues('Allotted Institute').map((institute, index) => (
+                  {options.institutes.map((institute, index) => (
                     <option key={index} value={institute}>{institute}</option>
                   ))}
                 </select>
-              </div>
-              <div className="filter-row">
                 <select name="course" value={filters.course} onChange={handleChange}>
                   <option value="">Select Course</option>
-                  {uniqueValues('Course').map((course, index) => (
+                  {options.courses.map((course, index) => (
                     <option key={index} value={course}>{course}</option>
                   ))}
                 </select>
