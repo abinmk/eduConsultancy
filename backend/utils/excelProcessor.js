@@ -1,5 +1,5 @@
 const readExcelFile = require('read-excel-file/node');
-const Result = require('../models/results');
+const Result = require('../models/Result');
 
 function processExcelFile(filePath) {
   const schema = {
