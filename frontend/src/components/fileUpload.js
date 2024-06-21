@@ -6,6 +6,7 @@ import './FileUpload.css'; // Create a CSS file for styling
 function FileUpload() {
     const [file, setFile] = useState(null);
     const [courseFile, setCourseFile] = useState(null);
+    const [collegeFile, setCollegeFile] = useState(null); // New state for college file
     const [examName, setExamName] = useState('');
     const [round, setRound] = useState('');
     const [year, setYear] = useState('');
@@ -20,6 +21,10 @@ function FileUpload() {
 
     const onCourseFileChange = (event) => {
         setCourseFile(event.target.files[0]);
+    };
+
+    const onCollegeFileChange = (event) => { // New handler for college file change
+        setCollegeFile(event.target.files[0]);
     };
 
     const onExamNameChange = (event) => {
@@ -124,6 +129,32 @@ function FileUpload() {
         }
     };
 
+    const onCollegeSubmit = async (event) => { // New function for handling college details upload
+        event.preventDefault();
+        if (!collegeFile) {
+            alert('Please select a college file.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', collegeFile);
+        setIsLoading(true);
+
+        try {
+            await axios.post('http://localhost:5001/api/upload-college-details', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            alert('College file uploaded successfully');
+            setIsLoading(false);
+        } catch (error) {
+            alert('Error uploading college file');
+            console.error(error);
+            setIsLoading(false);
+        }
+    };
+
     const onGenerateResults = async () => {
         if (!examName || !resultName || !year || selectedDataSets.length === 0) {
             alert('Please fill exam name, result name, year, and select data sets.');
@@ -181,6 +212,7 @@ function FileUpload() {
                     {isLoading ? 'Uploading...' : 'Upload'}
                 </button>
             </form>
+
             <h1>Upload Course Details</h1>
             <form onSubmit={onCourseSubmit}>
                 <div className="form-group">
@@ -190,6 +222,17 @@ function FileUpload() {
                     {isLoading ? 'Uploading...' : 'Upload Course Details'}
                 </button>
             </form>
+
+            <h1>Upload College Details</h1> {/* New section for uploading college details */}
+            <form onSubmit={onCollegeSubmit}>
+                <div className="form-group">
+                    <input type="file" onChange={onCollegeFileChange} />
+                </div>
+                <button type="submit" disabled={isLoading}>
+                    {isLoading ? 'Uploading...' : 'Upload College Details'}
+                </button>
+            </form>
+
             <h1>Generate Combined Results</h1>
             <div className="form-group">
                 <label>Exam Name:</label>
@@ -214,24 +257,25 @@ function FileUpload() {
                 <label>Available Data Sets:</label>
                 <select multiple value={selectedDataSets} onChange={onSelectedDataSetsChange}>
                     {availableDataSets.map(dataSet => (
-                        <option key={dataSet} value={dataSet}>{dataSet}</option>
-                    ))}
-                </select>
-            </div>
-            <div className="form-group">
-                <label>Result Name:</label>
-                <input type="text" value={resultName} onChange={onResultNameChange} />
-            </div>
-            <button onClick={onGenerateResults} disabled={isLoading}>
-                {isLoading ? 'Generating Results...' : 'Generate Results'}
-            </button>
-        </div>
-    );
-}
-
-export default FileUpload;
-
-// Ensure to use the new React 18 createRoot API
-const container = document.getElementById('root');
-const root = createRoot(container);
-root.render(<FileUpload />);
+                            <option key={dataSet} value={dataSet}>{dataSet}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>Result Name:</label>
+                        <input type="text" value={resultName} onChange={onResultNameChange} />
+                    </div>
+                    <button onClick={onGenerateResults} disabled={isLoading}>
+                        {isLoading ? 'Generating Results...' : 'Generate Results'}
+                    </button>
+                </div>
+            );
+        }
+        
+        export default FileUpload;
+        
+        // Ensure to use the new React 18 createRoot API
+        const container = document.getElementById('root');
+        const root = createRoot(container);
+        root.render(<FileUpload />);
+        
