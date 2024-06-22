@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const roundRoutes = require('./routes/roundRoutes');
+const adminRoutes = require('./routes/adminRoutes'); // Add this line
 
 const app = express();
 const port = process.env.PORT || 5001;
@@ -288,11 +289,15 @@ mongoose.connect(db, {
 
     // Register routes
     app.use('/api', roundRoutes);
+    app.use('/admin-controls', adminRoutes); // Add this line
 
     app.use((err, req, res, next) => {
       console.error(err.stack);
       res.status(500).send('Something broke!');
     });
+    const selectedDatasetRoutes = require('./routes/selectedDatasetRoutes');
+    app.use('/api/selected-dataset', selectedDatasetRoutes);
+
 
     app.listen(port, () => {
       console.log(`Server running on port ${port}`);

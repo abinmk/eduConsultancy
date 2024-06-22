@@ -24,6 +24,7 @@ const Allotments = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [hiddenColumns, setHiddenColumns] = useState([]);
+    const [selectedDataset, setSelectedDataset] = useState('');
     const itemsPerPage = 10;
 
     const fetchData = useCallback(async (page = 1) => {
@@ -52,50 +53,58 @@ const Allotments = () => {
         }
     }, [filters, itemsPerPage]);
 
-
-
     const fetchFilterOptions = useCallback(async () => {
-      try {
-          const response = await axios.get('http://localhost:5001/api/filter-options');
-          setFilters(prevFilters => ({
-              ...prevFilters,
-              quotas: Array.isArray(response.data.quotas) ? response.data.quotas.map(q => ({ value: q, label: q })) : [],
-              institutes: Array.isArray(response.data.institutes) ? response.data.institutes.map(i => ({ value: i, label: i })) : [],
-              courses: Array.isArray(response.data.courses) ? response.data.courses.map(c => ({ value: c, label: c })) : [],
-              allottedCategories: Array.isArray(response.data.allottedCategories) ? response.data.allottedCategories.map(ac => ({ value: ac, label: ac })) : [],
-              candidateCategories: Array.isArray(response.data.candidateCategories) ? response.data.candidateCategories.map(cc => ({ value: cc, label: cc })) : []
-          }));
-      } catch (error) {
-          console.error('Error fetching filter options:', error);
-          // Set defaults if fetch fails
-          setFilters(prevFilters => ({
-              ...prevFilters,
-              quotas: [],
-              institutes: [],
-              courses: [],
-              allottedCategories: [],
-              candidateCategories: []
-          }));
-      }
-  }, []);
-  
+        try {
+            const response = await axios.get('http://localhost:5001/api/filter-options');
+            setFilters(prevFilters => ({
+                ...prevFilters,
+                quotas: Array.isArray(response.data.quotas) ? response.data.quotas.map(q => ({ value: q, label: q })) : [],
+                institutes: Array.isArray(response.data.institutes) ? response.data.institutes.map(i => ({ value: i, label: i })) : [],
+                courses: Array.isArray(response.data.courses) ? response.data.courses.map(c => ({ value: c, label: c })) : [],
+                allottedCategories: Array.isArray(response.data.allottedCategories) ? response.data.allottedCategories.map(ac => ({ value: ac, label: ac })) : [],
+                candidateCategories: Array.isArray(response.data.candidateCategories) ? response.data.candidateCategories.map(cc => ({ value: cc, label: cc })) : []
+            }));
+        } catch (error) {
+            console.error('Error fetching filter options:', error);
+            // Set defaults if fetch fails
+            setFilters(prevFilters => ({
+                ...prevFilters,
+                quotas: [],
+                institutes: [],
+                courses: [],
+                allottedCategories: [],
+                candidateCategories: []
+            }));
+        }
+    }, []);
 
     useEffect(() => {
-        fetchFilterOptions();
-    }, [fetchFilterOptions]);
+        const fetchSelectedDataset = async () => {
+            try {
+                const response = await axios.get('http://localhost:5001/api/selected-dataset');
+                setSelectedDataset(response.data.selectedDataset || '');
+            } catch (error) {
+                console.error('Error fetching selected dataset:', error);
+            }
+        };
+
+        fetchSelectedDataset();
+    }, []);
 
     useEffect(() => {
-        fetchData(currentPage + 1);
-    }, [fetchData, currentPage]);
+        if (selectedDataset) {
+            fetchFilterOptions();
+            fetchData(currentPage + 1);
+        }
+    }, [selectedDataset, fetchFilterOptions, fetchData, currentPage]);
 
     const handleFilterChange = (selectedOption, { name }) => {
-      setFilters(prevFilters => ({
-          ...prevFilters,
-          [name]: selectedOption ? selectedOption.value : ''
-      }));
-      fetchData(1);  // Refetch data based on new filters at page 1
-  };
-  
+        setFilters(prevFilters => ({
+            ...prevFilters,
+            [name]: selectedOption ? selectedOption.value : ''
+        }));
+        fetchData(1);  // Refetch data based on new filters at page 1
+    };
 
     const handlePageClick = (event) => {
         setCurrentPage(event.selected);
@@ -263,32 +272,34 @@ const Allotments = () => {
                                                 {cell.render('Cell')}
                                             </td>
                                         ))}
-                                    </tr>
-                                );
-                            })
-                        ) : (
-                            <tr>
-                                <td colSpan={columns.length}>No data available</td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-
-                <ReactPaginate
-                    previousLabel={"previous"}
-                    nextLabel={"next"}
-                    breakLabel={"..."}
-                    breakClassName={"break-me"}
-                    pageCount={totalPages}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={handlePageClick}
-                    containerClassName={"pagination"}
-                    subContainerClassName={"pages pagination"}
-                    activeClassName={"active"}
-                />
-            </section>
-        </Layout>
-    )};
-
-    export default Allotments
+                                        </tr>
+                                    );
+                                })
+                            ) : (
+                                <tr>
+                                    <td colSpan={columns.length}>No data available</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+    
+                    <ReactPaginate
+                        previousLabel={"previous"}
+                        nextLabel={"next"}
+                        breakLabel={"..."}
+                        breakClassName={"break-me"}
+                        pageCount={totalPages}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        onPageChange={handlePageClick}
+                        containerClassName={"pagination"}
+                        subContainerClassName={"pages pagination"}
+                        activeClassName={"active"}
+                    />
+                </section>
+            </Layout>
+        );
+    };
+    
+    export default Allotments;
+    

@@ -12,7 +12,8 @@ import Colleges from './pages/Colleges';
 import Courses from './pages/Courses';
 import Wishlist from './pages/Wishlist';
 import { UserContext } from './contexts/UserContext';
-import FileUpload from './pages/ExcelUpload';
+import FileUpload from './components/Upload';
+import AdminControls from './components/adminControls';
 
 const PrivateRoute = ({ children }) => {
   const { user } = useContext(UserContext);
@@ -33,9 +34,10 @@ const AppRoutes = () => {
       <Route path="/courses" element={<PrivateRoute><Courses /></PrivateRoute>} />
       <Route path="/wishlist" element={<PrivateRoute><Wishlist /></PrivateRoute>} />
       <Route path="/fileupload" element={< FileUpload/>}/>
-     
+      <Route path="/adminControls" element={< AdminControls/>}/>
     </Routes>
   );
 };
 
 export default AppRoutes;
+

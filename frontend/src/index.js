@@ -1,17 +1,15 @@
 // src/index.js
-import 'primereact/resources/themes/saga-blue/theme.css';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
-import 'primeflex/primeflex.css';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import { createRoot } from 'react-dom/client';
 import App from './App';
-import { UserProvider } from './contexts/UserContext';
+import { BrowserRouter as Router } from 'react-router-dom';
+import './index.css';
 
-ReactDOM.render(
-  <UserProvider>
-    <App />
-  </UserProvider>,
-  document.getElementById('root')
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
+  <React.StrictMode>
+      <App />
+  </React.StrictMode>
 );

@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/Home.css';
 import Layout from '../components/Layout';
 import AllotmentsTable from '../components/allotmentsTable';
-import FileUpload from '../components/fileUpload';
+import FileUpload from '../components/Upload';
 import { Button } from 'primereact/button';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
@@ -52,8 +52,6 @@ const Home = () => {
 
   return (
     <Layout>
-       <FileUpload />
-      {/* <AllotmentsTable /> */}
       <section className="hero-section">
         <div className="hero-content">
           <h1 id="welcome-h1">Welcome to Rank & Seats</h1>

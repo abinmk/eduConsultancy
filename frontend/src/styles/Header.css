@@ -10,6 +10,9 @@
   align-items: center; /* Align items vertically in the center */
   padding: 10px 20px;
 }
+.nav-links{
+  font-size: 10rem;
+}
 
 .header-container .logo {
   display: flex;
@@ -17,7 +20,7 @@
 }
 
 .header-container .logo img {
-  height: 40px; /* Adjust the height to match the nav items */
+  height: 45px; /* Adjust the height to match the nav items */
 }
 
 .header-container .nav-links {
